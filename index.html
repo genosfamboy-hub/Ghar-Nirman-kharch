@@ -554,7 +554,8 @@
             materials: [], 
             workers: {},   
             payments: [],
-            totalCashAdded: 0
+            totalCashAdded: 0,
+            cashAdditions: []
         };
 
         window.onload = function() {
@@ -574,7 +575,8 @@
             if(!db.materials) db.materials = [];
             if(!db.workers) db.workers = {};
             if(!db.payments) db.payments = [];
-            if(!db.totalCashAdded) db.totalCashAdded = 0;
+            if(db.totalCashAdded === undefined) db.totalCashAdded = 0;
+            if(!db.cashAdditions) db.cashAdditions = [];
         }
 
         function saveToLocalStorage() {
@@ -586,7 +588,11 @@
             let amt = parseFloat(document.getElementById('addCashAmt').value) || 0;
             if (amt <= 0) { alert('Valid Cash amount jodein!'); return; }
             
+            let curDate = document.getElementById('globalDate').value;
+
             db.totalCashAdded += amt;
+            db.cashAdditions.push({ date: curDate, amount: amt });
+
             document.getElementById('addCashAmt').value = 0;
             alert('₹' + amt + ' cash wallet me jod diya gaya!');
             saveToLocalStorage();
@@ -779,6 +785,17 @@
                     delete db.workers[curDate];
                 }
                 
+                // Deduct cash added on this specific date
+                if (db.cashAdditions) {
+                    db.cashAdditions = db.cashAdditions.filter(c => {
+                        if (c.date === curDate) {
+                            db.totalCashAdded -= c.amount; 
+                            return false; 
+                        }
+                        return true;
+                    });
+                }
+                
                 // Clear active fields manually
                 document.getElementById('labCount').value = 0;
                 document.getElementById('misCount').value = 0;
@@ -799,7 +816,8 @@
                         materials: [],
                         workers: {},
                         payments: [],
-                        totalCashAdded: 0
+                        totalCashAdded: 0,
+                        cashAdditions: []
                     };
                     
                     document.getElementById('labCount').value = 0;
