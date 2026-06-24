@@ -1,998 +1,1116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghar Nirman Kharch</title>
-    
-    <!-- Mobile/PWA Optimization Tags -->
-    <meta name="theme-color" content="#1e3c72">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
-    
-    <!-- Manifest for Add to Home Screen -->
-    <link rel="manifest" id="pwaManifest">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ghar Nirman Kharch</title>
 
-    <style>
-        :root {
-            --bg-color: #f4f6f9;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-            --primary: #1e3c72;
-            --secondary: #2a5298;
-            --accent: #27ae60;
-            --danger: #e74c3c;
-            --border: #e0e0e0;
-            --header-text: #ffffff;
-            --warning: #f39c12;
-        }
+<!-- Mobile/PWA Optimization Tags -->
+<meta name="theme-color" content="#1e3c72" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png" />
 
-        [data-theme="dark"] {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #e0e0e0;
-            --primary: #0f2027;
-            --secondary: #203a43;
-            --accent: #2ecc71;
-            --danger: #e74c3c;
-            --border: #333333;
-            --header-text: #e0e0e0;
-        }
+<!-- Manifest for Add to Home Screen -->
+<link rel="manifest" id="pwaManifest" />
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<style>
+:root {
+    --bg-color: #f4f6f9;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --primary: #1e3c72;
+    --secondary: #2a5298;
+    --accent: #27ae60;
+    --danger: #e74c3c;
+    --border: #e0e0e0;
+    --header-text: #ffffff;
+    --warning: #f39c12;
+}
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding: 10px;
-            max-width: 500px;
-            margin: 0 auto;
-            transition: background 0.3s, color 0.3s;
-            padding-bottom: 40px;
-        }
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --primary: #0f2027;
+    --secondary: #203a43;
+    --accent: #2ecc71;
+    --danger: #e74c3c;
+    --border: #333333;
+    --header-text: #e0e0e0;
+}
 
-        .header-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 10px;
+    max-width: 500px;
+    margin: 0 auto;
+    transition: background 0.3s, color 0.3s;
+    padding-bottom: 40px;
+}
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.header-date-input {
+    margin-bottom: 0; 
+    width: 140px;
+}
+.btn-toggle {
+    background: var(--secondary);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+/* Dashboard Header */
+.dashboard {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+.dashboard h2 {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 8px;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.stat-box{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:12px;
+    padding:12px;
+    text-align:center;
+    cursor:pointer;
+    transition:.25s;
+}
+.stat-box:hover{
+    transform:translateY(-4px);
+    background:rgba(255,255,255,.2);
+}
+.stat-box span{
+    display:block;
+    font-size:1.25rem;
+    font-weight:bold;
+    margin-top:6px;
+}
 
-        .btn-toggle {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
+/* Cards and Sections */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--accent);
+}
+.card.wallet-card {
+    border: 2px solid var(--accent);
+}
+.card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+    color: var(--secondary);
+    border-left: 4px solid var(--accent);
+    padding-left: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card.wallet-card h3 {
+    color: var(--accent); 
+    border-left-color: var(--accent);
+}
+[data-theme="dark"] .card h3 {
+    color: var(--accent);
+}
+.wallet-balance-box {
+    font-size: 1.2rem; 
+    font-weight: bold; 
+    margin-bottom: 15px; 
+    text-align: center; 
+    padding: 10px; 
+    background: rgba(39, 174, 96, 0.1); 
+    border-radius: 6px;
+}
+.worker-sub-box {
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    margin-bottom:15px;
+}
+.worker-sub-box.last {
+    margin-bottom:0;
+}
+.form-group {
+    margin-bottom: 10px;
+}
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+input, select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    font-size: 0.95rem;
+    outline: none;
+}
+input:focus, select:focus {
+    border-color: var(--secondary);
+}
+.auto-calc {
+    background: rgba(0,0,0,0.03);
+    padding: 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin-top: 8px;
+    color: var(--accent);
+    border-left: 3px solid var(--accent);
+}
+[data-theme="dark"] .auto-calc {
+    background: rgba(255,255,255,0.05);
+}
+button.btn-block {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: opacity 0.2s;
+}
+button.btn-block:hover {
+    opacity: 0.9;
+}
+/* Lists and Tables */
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.9rem;
+}
+.list-item:last-child {
+    border-bottom: none;
+}
+.list-item .details {
+    flex-grow: 1;
+}
+.list-item .amt {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.badge-extra {
+    background-color: var(--warning);
+    color: black;
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+.badge-method {
+    background-color: #3498db;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+.btn-delete {
+    background: none;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0 5px;
+}
+.total-row {
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: right;
+    font-size: 0.95rem;
+    color: var(--secondary);
+}
+.backup-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.btn-backup {
+    background: var(--secondary);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+}
+/* Report Box */
+.report-box {
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+[data-theme="dark"] .report-box {
+    background: rgba(255, 255, 255, 0.02);
+}
+.report-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
 
-        /* Dashboard Header */
-        .dashboard {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
-        }
-
-        .dashboard h2 {
-            text-align: center;
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 8px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .stat-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-        }
-
-        .stat-box span {
-            display: block;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-top: 2px;
-        }
-
-        .stat-box.grand-total {
-            grid-column: span 2;
-            background: rgba(39, 174, 96, 0.2);
-            border: 1px solid rgba(39, 174, 96, 0.4);
-            text-align: center;
-        }
-
-        /* Cards and Sections */
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid var(--border);
-        }
-
-        .card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            color: var(--secondary);
-            border-left: 4px solid var(--accent);
-            padding-left: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        [data-theme="dark"] .card h3 {
-            color: var(--accent);
-        }
-
-        .form-group {
-            margin-bottom: 10px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 8px 10px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--secondary);
-        }
-
-        .auto-calc {
-            background: rgba(0,0,0,0.03);
-            padding: 8px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.95rem;
-            margin-top: 8px;
-            color: var(--accent);
-            border-left: 3px solid var(--accent);
-        }
-
-        [data-theme="dark"] .auto-calc {
-            background: rgba(255,255,255,0.05);
-        }
-
-        button.btn-block {
-            width: 100%;
-            padding: 10px;
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: opacity 0.2s;
-        }
-
-        button.btn-block:hover {
-            opacity: 0.9;
-        }
-
-        /* Lists and Tables */
-        .list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px dashed var(--border);
-            font-size: 0.9rem;
-        }
-
-        .list-item:last-child {
-            border-bottom: none;
-        }
-
-        .list-item .details {
-            flex-grow: 1;
-        }
-
-        .list-item .amt {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .badge-extra {
-            background-color: var(--warning);
-            color: black;
-            font-size: 0.7rem;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-
-        .badge-method {
-            background-color: #3498db;
-            color: white;
-            font-size: 0.7rem;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-
-        .btn-delete {
-            background: none;
-            border: none;
-            color: var(--danger);
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1rem;
-            padding: 0 5px;
-        }
-
-        .total-row {
-            margin-top: 10px;
-            font-weight: bold;
-            text-align: right;
-            font-size: 0.95rem;
-            color: var(--secondary);
-        }
-
-        .backup-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .btn-backup {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        /* Report Box */
-        .report-box {
-            background: rgba(0, 0, 0, 0.02);
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-
-        [data-theme="dark"] .report-box {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .report-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-        }
-    </style>
+/* ===== PROFESSIONAL POPUP ===== */
+.modal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.65);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    padding:15px;
+}
+.modal-content{
+    width:100%;
+    max-width:550px;
+    background:var(--card-bg);
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,.3);
+}
+.modal-header{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.modal-close{
+    border:none;
+    background:none;
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+}
+.modal-body{
+    padding:15px;
+    max-height:70vh;
+    overflow-y:auto;
+}
+.detail-card{
+    background:rgba(0,0,0,.03);
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:10px;
+    border-left:4px solid var(--accent);
+}
+[data-theme="dark"] .detail-card{
+    background:rgba(255,255,255,.05);
+}
+.detail-title{
+    font-weight:bold;
+    margin-bottom:5px;
+}
+.detail-amount{
+    color:var(--accent);
+    font-size:1.1rem;
+    font-weight:bold;
+    margin-top:5px;
+}
+</style>
 </head>
 <body>
 
-    <div class="header-actions">
-        <div class="form-group" style="margin-bottom:0; width: 140px;">
-            <input type="date" id="globalDate" onchange="handleDateChange()">
+<!-- ⚙️ TOP HEADER ACTIONS -->
+<div class="header-actions">
+    <div class="form-group header-date-input">
+        <input type="date" id="globalDate" onchange="handleDateChange()">
+    </div>
+    <button class="btn-toggle" onclick="toggleTheme()">🌓 Dark Mode</button>
+</div>
+
+<!-- 🏠 DASHBOARD HEADER -->
+<div class="dashboard">
+    <h2 id="dashDateHeader">🏠 GHAR NIRMAN KHARCH</h2>
+    <div class="stats-grid">
+        <div class="stat-box" onclick="showDetails('material')">Total Material: <span id="hdrMaterial">₹0</span></div>
+        <div class="stat-box" onclick="showDetails('labour')">Total Labour: <span id="hdrLabour">₹0</span></div>
+        <div class="stat-box" onclick="showDetails('mistri')">Total Mistri: <span id="hdrMistri">₹0</span></div>
+        <div class="stat-box" onclick="showDetails('payment')">Total Payment: <span id="hdrPayment">₹0</span></div>
+        <div class="stat-box grand-total">Grand Total Kharch: <span id="hdrGrandTotal">₹0</span></div>
+    </div>
+</div>
+
+<!-- 💵 IN HAND CASH WALLET SECTION -->
+<div class="card wallet-card">
+    <h3>💵 IN HAND CASH WALLET</h3>
+    <div class="wallet-balance-box">
+        Current Balance: <span id="cashBalance" style="color: var(--accent);">₹0</span>
+    </div>
+    <div class="form-row">
+        <div class="form-group" style="grid-column: span 2;">
+            <label>Add Cash Amount (Wallet me Cash jodein)</label>
+            <input type="number" id="addCashAmt" value="0" />
         </div>
-        <button class="btn-toggle" onclick="toggleTheme()">🌓 Dark Mode</button>
+    </div>
+    <button class="btn-block" onclick="addCashToWallet()">[ + Add Cash to Wallet ]</button>
+</div>
+
+<!-- 📦 MATERIAL ENTRY -->
+<div class="card">
+    <h3>📦 MATERIAL ENTRY</h3>
+    <div class="form-row">
+        <div class="form-group" style="grid-column: span 2;">
+            <label>Material Name</label>
+            <select id="matName" onchange="toggleOtherInput()">
+                <option value="Cement">Cement (Cement Bag)</option>
+                <option value="Sand">Sand (Baloo / Ret)</option>
+                <option value="Rod">Rod (Sariya)</option>
+                <option value="Bricks">Bricks (Eent)</option>
+                <option value="Stone Chips">Stone Chips (Gitti)</option>
+                <option value="Other">Other Saman</option>
+            </select>
+        </div>
     </div>
 
-    <!-- 🏠 DASHBOARD HEADER -->
-    <div class="dashboard">
-        <h2 id="dashDateHeader">🏠 GHAR NIRMAN KHARCH</h2>
-        <div class="stats-grid">
-            <div class="stat-box">Total Material: <span id="hdrMaterial">₹0</span></div>
-            <div class="stat-box">Total Labour: <span id="hdrLabour">₹0</span></div>
-            <div class="stat-box">Total Mistri: <span id="hdrMistri">₹0</span></div>
-            <div class="stat-box">Total Payment: <span id="hdrPayment">₹0</span></div>
-            <div class="stat-box grand-total">Grand Total Kharch: <span id="hdrGrandTotal">₹0</span></div>
+    <div class="form-group" id="otherMatGroup" style="display: none;">
+        <label>Saman Ka Naam Likhein</label>
+        <input type="text" id="customMatName" placeholder="e.g., Pipe, Paint, Taar" />
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label>Quantity</label>
+            <input type="text" id="matQty" value="1" oninput="calcMaterial()" />
+        </div>
+        <div class="form-group">
+            <label>Rate</label>
+            <input type="number" id="matRate" value="0" oninput="calcMaterial()" />
         </div>
     </div>
 
-    <!-- 💵 IN HAND CASH WALLET SECTION -->
-    <div class="card" style="border: 2px solid var(--accent);">
-        <h3 style="color: var(--accent); border-left-color: var(--accent);">💵 IN HAND CASH WALLET</h3>
-        <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; text-align: center; padding: 10px; background: rgba(39, 174, 96, 0.1); border-radius: 6px;">
-            Current Balance: <span id="cashBalance" style="color: var(--accent);">₹0</span>
-        </div>
-        <div class="form-row">
-            <div class="form-group" style="grid-column: span 2;">
-                <label>Add Cash Amount (Wallet me Cash jodein)</label>
-                <input type="number" id="addCashAmt" value="0">
-            </div>
-        </div>
-        <button class="btn-block" onclick="addCashToWallet()" style="background-color: var(--accent);">[ + Add Cash to Wallet ]</button>
+    <div class="form-group" style="margin-top: 10px;">
+        <label>Paid From (Payment Method)</label>
+        <select id="matPayMethod">
+            <option value="Cash">💵 Cash Wallet (Balances se kategi)</option>
+            <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
+        </select>
     </div>
 
-    <!-- 📦 MATERIAL ENTRY -->
-    <div class="card">
-        <h3>📦 MATERIAL ENTRY</h3>
-        <div class="form-row">
-            <div class="form-group" style="grid-column: span 2;">
-                <label>Material Name</label>
-                <select id="matName" onchange="toggleOtherInput()">
-                    <option value="Cement">Cement (Cement Bag)</option>
-                    <option value="Sand">Sand (Baloo / Ret)</option>
-                    <option value="Rod">Rod (Sariya)</option>
-                    <option value="Bricks">Bricks (Eent)</option>
-                    <option value="Stone Chips">Stone Chips (Gitti)</option>
-                    <option value="Other">Other Saman</option>
-                </select>
-            </div>
-        </div>
-        
-        <div class="form-group" id="otherMatGroup" style="display: none;">
-            <label>Saman Ka Naam Likhein</label>
-            <input type="text" id="customMatName" placeholder="e.g., Pipe, Paint, Taar">
-        </div>
+    <div class="auto-calc">Auto Total: ₹<span id="matTotalLabel">0</span></div>
+    <button class="btn-block" onclick="addMaterial()">[ Add Material ]</button>
+</div>
 
+<!-- 📋 TODAY MATERIAL LIST -->
+<div class="card">
+    <h3>📋 TODAY MATERIAL LIST</h3>
+    <div id="todayMaterialList">
+        <!-- Dynamic Data -->
+    </div>
+    <div class="total-row">Today's Material Total: ₹<span id="todayMatTotal">0</span></div>
+</div>
+
+<!-- 👷 WORKER SECTION -->
+<div class="card">
+    <h3>👷 WORKER SECTION</h3>
+
+    <div class="worker-sub-box">
         <div class="form-row">
             <div class="form-group">
-                <label>Quantity</label>
-                <input type="text" id="matQty" value="1" oninput="calcMaterial()">
+                <label>Labour Count</label>
+                <input type="number" id="labCount" value="0" oninput="calcWorker()" />
             </div>
             <div class="form-group">
-                <label>Rate</label>
-                <input type="number" id="matRate" value="0" oninput="calcMaterial()">
+                <label>Labour Rate</label>
+                <input type="number" id="labRate" value="600" oninput="calcWorker()" />
             </div>
         </div>
-
-        <div class="form-group" style="margin-top: 10px;">
-            <label>Paid From (Payment Method)</label>
-            <select id="matPayMethod">
-                <option value="Cash">💵 Cash Wallet (Balances se kategi)</option>
+        <div class="form-group" style="margin-top: 5px;">
+            <label>Labour Paid From</label>
+            <select id="labPayMethod">
+                <option value="Cash">💵 Cash Wallet</option>
                 <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
             </select>
         </div>
-
-        <div class="auto-calc">Auto Total: ₹<span id="matTotalLabel">0</span></div>
-        <button class="btn-block" onclick="addMaterial()">[ Add Material ]</button>
+        <div class="auto-calc">Labour Cost: ₹<span id="labTotalLabel">0</span></div>
     </div>
 
-    <!-- 📋 TODAY MATERIAL LIST -->
-    <div class="card">
-        <h3>📋 TODAY MATERIAL LIST</h3>
-        <div id="todayMaterialList">
-            <!-- Dynamic Data -->
-        </div>
-        <div class="total-row">Today's Material Total: ₹<span id="todayMatTotal">0</span></div>
-    </div>
-
-    <!-- 👷 WORKER SECTION -->
-    <div class="card">
-        <h3>👷 WORKER SECTION</h3>
-        
-        <div style="margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Labour Count</label>
-                    <input type="number" id="labCount" value="0" oninput="calcWorker()">
-                </div>
-                <div class="form-group">
-                    <label>Labour Rate</label>
-                    <input type="number" id="labRate" value="600" oninput="calcWorker()">
-                </div>
-            </div>
-            <div class="form-group" style="margin-top: 5px;">
-                <label>Labour Paid From</label>
-                <select id="labPayMethod">
-                    <option value="Cash">💵 Cash Wallet</option>
-                    <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
-                </select>
-            </div>
-            <div class="auto-calc" style="margin-bottom:10px;">Labour Cost: ₹<span id="labTotalLabel">0</span></div>
-        </div>
-
-        <div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Mistri Count</label>
-                    <input type="number" id="misCount" value="0" oninput="calcWorker()">
-                </div>
-                <div class="form-group">
-                    <label>Mistri Rate</label>
-                    <input type="number" id="misRate" value="1000" oninput="calcWorker()">
-                </div>
-            </div>
-            <div class="form-group" style="margin-top: 5px;">
-                <label>Mistri Paid From</label>
-                <select id="misPayMethod">
-                    <option value="Cash">💵 Cash Wallet</option>
-                    <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
-                </select>
-            </div>
-            <div class="auto-calc">Mistri Cost: ₹<span id="misTotalLabel">0</span></div>
-        </div>
-
-        <button class="btn-block" onclick="saveWorkerEntry()">[ Save Worker Entry ]</button>
-    </div>
-
-    <!-- 💰 PAYMENT SECTION -->
-    <div class="card">
-        <h3>💰 PAYMENT SECTION</h3>
-        <div class="form-row" style="margin-bottom: 10px;">
+    <div class="worker-sub-box last">
+        <div class="form-row">
             <div class="form-group">
-                <label>Payment For</label>
-                <select id="payToCategory">
-                    <option value="Mistri">Mistri Ka Payment</option>
-                    <option value="Labour">Labour Ka Payment</option>
-                    <option value="Material Holder">Saman / Material Holder</option>
-                    <option value="Other Expenses">Other Expense / Extra Kharch</option>
-                </select>
+                <label>Mistri Count</label>
+                <input type="number" id="misCount" value="0" oninput="calcWorker()" />
             </div>
             <div class="form-group">
-                <label>Paid From (Payment Method)</label>
-                <select id="payMethod">
-                    <option value="Cash">💵 Cash Wallet (Balances se kategi)</option>
-                    <option value="Other/Digital">📱 Other / Online / Credit</option>
-                </select>
+                <label>Mistri Rate</label>
+                <input type="number" id="misRate" value="1000" oninput="calcWorker()" />
             </div>
         </div>
-        <div class="form-group">
-            <label>Paid To Description (Kisko ya kis liye diya)</label>
-            <input type="text" id="payTo" placeholder="e.g. Ramesh Mistri, Cement dukan wala, Chai kharch">
+        <div class="form-group" style="margin-top: 5px;">
+            <label>Mistri Paid From</label>
+            <select id="misPayMethod">
+                <option value="Cash">💵 Cash Wallet</option>
+                <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
+            </select>
         </div>
-        <div class="form-group">
-            <label>Amount (Kitna Diya)</label>
-            <input type="number" id="payAmt" value="0">
-        </div>
-        <button class="btn-block" onclick="addPayment()">[ Save Payment ]</button>
+        <div class="auto-calc">Mistri Cost: ₹<span id="misTotalLabel">0</span></div>
+    </div>
 
-        <div id="todayPaymentList" style="margin-top: 12px;">
-            <!-- Dynamic Data -->
+    <button class="btn-block" onclick="saveWorkerEntry()">[ Save Worker Entry ]</button>
+</div>
+
+<!-- 💰 PAYMENT SECTION -->
+<div class="card">
+    <h3>💰 PAYMENT SECTION</h3>
+    <div class="form-row" style="margin-bottom: 10px;">
+        <div class="form-group">
+            <label>Payment For</label>
+            <select id="payToCategory">
+                <option value="Mistri">Mistri Ka Payment</option>
+                <option value="Labour">Labour Ka Payment</option>
+                <option value="Material Holder">Saman / Material Holder</option>
+                <option value="Other Expenses">Other Expense / Extra Kharch</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Paid From (Payment Method)</label>
+            <select id="payMethod">
+                <option value="Cash">💵 Cash Wallet (Balances se kategi)</option>
+                <option value="Other/Digital">📱 Other / Online / Credit</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Paid To Description (Kisko ya kis liye diya)</label>
+        <input type="text" id="payTo" placeholder="e.g. Ramesh Mistri, Cement dukan wala, Chai kharch" />
+    </div>
+    <div class="form-group">
+        <label>Amount (Kitna Diya)</label>
+        <input type="number" id="payAmt" value="0" />
+    </div>
+    <button class="btn-block" onclick="addPayment()">[ Save Payment ]</button>
+
+    <div id="todayPaymentList" style="margin-top: 12px;">
+        <!-- Dynamic Data -->
+    </div>
+</div>
+
+<!-- 📅 DATE WISE & MONTHLY REPORT -->
+<div class="card">
+    <h3>📅 DATE WISE REPORT</h3>
+    <div class="form-group">
+        <label>Select Date for Report</label>
+        <input type="date" id="reportDate" onchange="updateReport()" />
+    </div>
+    <div class="report-box">
+        <div class="report-row"><span>Material Cost:</span><span id="repMat">₹0</span></div>
+        <div class="report-row"><span>Labour Cost:</span><span id="repLab">₹0</span></div>
+        <div class="report-row"><span>Mistri Cost:</span><span id="repMis">₹0</span></div>
+        <div class="report-row"><span>Normal Paid:</span><span id="repPaid">₹0</span></div>
+        <div class="report-row" style="color: var(--warning); font-weight: bold;"><span>Extra Paid Cost:</span><span id="repExtraPaid">₹0</span></div>
+        <div class="report-row" style="font-weight:bold; border-top:1px solid var(--border); padding-top:5px; margin-top:5px; color:var(--accent);">
+            <span>Total Day Cost:</span><span id="repDayTotal">₹0</span>
         </div>
     </div>
 
-    <!-- 📅 DATE WISE & MONTHLY REPORT -->
-    <div class="card">
-        <h3>📅 DATE WISE REPORT</h3>
-        <div class="form-group">
-            <label>Select Date for Report</label>
-            <input type="date" id="reportDate" onchange="updateReport()">
-        </div>
-        <div class="report-box">
-            <div class="report-row"><span>Material Cost:</span><span id="repMat">₹0</span></div>
-            <div class="report-row"><span>Labour Cost:</span><span id="repLab">₹0</span></div>
-            <div class="report-row"><span>Mistri Cost:</span><span id="repMis">₹0</span></div>
-            <div class="report-row"><span>Normal Paid:</span><span id="repPaid">₹0</span></div>
-            <div class="report-row" style="color: var(--warning); font-weight: bold;"><span>Extra Paid Cost:</span><span id="repExtraPaid">₹0</span></div>
-            <div class="report-row" style="font-weight:bold; border-top:1px solid var(--border); padding-top:5px; margin-top:5px; color:var(--accent);">
-                <span>Total Day Cost:</span><span id="repDayTotal">₹0</span>
-            </div>
-        </div>
-
-        <h3 style="margin-top: 20px;">📊 MONTHLY TOTAL REPORT</h3>
-        <div class="report-box" id="monthlyReportBox">
-            <!-- Monthly calculations -->
-        </div>
+    <h3 style="margin-top: 20px;">📊 MONTHLY TOTAL REPORT</h3>
+    <div class="report-box" id="monthlyReportBox">
+        <!-- Monthly calculations -->
     </div>
+</div>
 
-    <!-- 💾 BACKUP & RESTORE & RESET -->
-    <div class="card">
-        <h3>💾 BACKUP, RESTORE & MAINTENANCE</h3>
-        <p style="font-size:0.8rem; margin-bottom:10px; opacity:0.8;">Aapka data local storage me save rehta hai.</p>
-        <div class="backup-btns" style="margin-bottom: 10px;">
-            <button class="btn-backup" onclick="exportBackup()">[ Export Backup ]</button>
-            <button class="btn-backup" style="background:#7f8c8d;" onclick="document.getElementById('importFile').click()">[ Import Backup ]</button>
-        </div>
-        <input type="file" id="importFile" style="display:none" onchange="importBackup(event)">
-        
-        <!-- Danger Zone Reset Buttons -->
-        <div class="backup-btns">
-            <button class="btn-backup" style="background: var(--warning); color: black;" onclick="resetDayEntry()">⚠️ Reset Today's Entry</button>
-            <button class="btn-backup" style="background: var(--danger);" onclick="totalResetAllData()">🚨 TOTAL RESET ALL DATA</button>
-        </div>
+<!-- 💾 BACKUP & RESTORE & RESET -->
+<div class="card">
+    <h3>💾 BACKUP, RESTORE & MAINTENANCE</h3>
+    <p style="font-size:0.8rem; margin-bottom:10px; opacity:0.8;">Aapka data local storage me save rehta hai.</p>
+    <div class="backup-btns" style="margin-bottom: 10px;">
+        <button class="btn-backup" onclick="exportBackup()">[ Export Backup ]</button>
+        <button class="btn-backup" style="background:#7f8c8d;" onclick="document.getElementById('importFile').click()">[ Import Backup ]</button>
     </div>
+    <input type="file" id="importFile" style="display:none" onchange="importBackup(event)" />
 
-    <script>
-        // Setup PWA Manifest dynamically to allow installation
-        const manifest = {
-            "short_name": "GharKharch",
-            "name": "Ghar Nirman Kharch Tracker",
-            "icons": [{
-                "src": "https://cdn-icons-png.flaticon.com/512/609/609803.png",
-                "type": "image/png",
-                "sizes": "512x512"
-            }],
-            "start_url": ".",
-            "background_color": "#1e3c72",
-            "theme_color": "#1e3c72",
-            "display": "standalone",
-            "orientation": "portrait"
-        };
-        document.getElementById('pwaManifest').setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest)));
+    <!-- Danger Zone Reset Buttons -->
+    <div class="backup-btns">
+        <button class="btn-backup" style="background: var(--warning); color: black;" onclick="resetDayEntry()">⚠️ Reset Today's Entry</button>
+        <button class="btn-backup" style="background: var(--danger);" onclick="totalResetAllData()">🚨 TOTAL RESET ALL DATA</button>
+    </div>
+</div>
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('data:application/javascript;charset=utf-8,' + encodeURIComponent(`
-                self.addEventListener('fetch', function(event) {
-                    event.respondWith(fetch(event.request).catch(function() { return new Response('Offline Mode Ready'); }));
-                });
-            `), { scope: '.' });
+<!-- 📋 MODAL POPUP (Hidden Structure Out of Workspace Elements) -->
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Details</h3>
+            <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div id="modalBody" class="modal-body"></div>
+    </div>
+</div>
+
+<script>
+// Setup PWA Manifest dynamically to allow installation
+const manifest = {
+    "short_name": "GharKharch",
+    "name": "Ghar Nirman Kharch Tracker",
+    "icons": [{
+        "src": "https://cdn-icons-png.flaticon.com/512/609/609803.png",
+        "type": "image/png",
+        "sizes": "512x512"
+    }],
+    "start_url": ".",
+    "background_color": "#1e3c72",
+    "theme_color": "#1e3c72",
+    "display": "standalone",
+    "orientation": "portrait"
+};
+document.getElementById('pwaManifest').setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest)));
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('data:application/javascript;charset=utf-8,' + encodeURIComponent(`
+        self.addEventListener('fetch', function(event) {
+            event.respondWith(fetch(event.request).catch(function() { return new Response('Offline Mode Ready'); }));
+        });
+    `), { scope: '.' });
+}
+
+// Database Structure
+let db = {
+    materials: [], 
+    workers: {},   
+    payments: [],
+    totalCashAdded: 0,
+    cashAdditions: []
+};
+
+window.onload = function() {
+    let today = new Date().toISOString().split('T')[0];
+    document.getElementById('globalDate').value = today;
+    document.getElementById('reportDate').value = today;
+
+    if(localStorage.getItem('gharKharchDb')) {
+        db = JSON.parse(localStorage.getItem('gharKharchDb'));
+    }
+    validateDatabaseStructure();
+    refreshAll();
+};
+
+function validateDatabaseStructure() {
+    if(!db.materials) db.materials = [];
+    if(!db.workers) db.workers = {};
+    if(!db.payments) db.payments = [];
+    if(db.totalCashAdded === undefined) db.totalCashAdded = 0;
+    if(!db.cashAdditions) db.cashAdditions = [];
+}
+
+function saveToLocalStorage() {
+    localStorage.setItem('gharKharchDb', JSON.stringify(db));
+    refreshAll();
+}
+
+function addCashToWallet() {
+    let amt = parseFloat(document.getElementById('addCashAmt').value) || 0;
+    if (amt <= 0) { alert('Valid Cash amount jodein!'); return; }
+    let curDate = document.getElementById('globalDate').value;
+    db.totalCashAdded += amt;
+    db.cashAdditions.push({ date: curDate, amount: amt });
+    document.getElementById('addCashAmt').value = 0;
+    alert('₹' + amt + ' cash wallet me jod diya gaya!');
+    saveToLocalStorage();
+}
+
+function getWalletBalance() {
+    let spentCash = 0;
+    db.materials.forEach(m => { if(m.method === 'Cash') spentCash += m.total; });
+    for(let d in db.workers) {
+        if(db.workers[d].labMethod === 'Cash') spentCash += (db.workers[d].labCount * db.workers[d].labRate) || 0;
+        if(db.workers[d].misMethod === 'Cash') spentCash += (db.workers[d].misCount * db.workers[d].misRate) || 0;
+    }
+    db.payments.forEach(p => { if(p.method === 'Cash') spentCash += p.amt; });
+    return db.totalCashAdded - spentCash;
+}
+
+function handleDateChange() {
+    let selectedDate = document.getElementById('globalDate').value;
+    document.getElementById('reportDate').value = selectedDate;
+    if(db.workers[selectedDate]) {
+        document.getElementById('labCount').value = db.workers[selectedDate].labCount || 0;
+        document.getElementById('labRate').value = db.workers[selectedDate].labRate || 600;
+        document.getElementById('labPayMethod').value = db.workers[selectedDate].labMethod || 'Other/Digital';
+        document.getElementById('misCount').value = db.workers[selectedDate].misCount || 0;
+        document.getElementById('misRate').value = db.workers[selectedDate].misRate || 1000;
+        document.getElementById('misPayMethod').value = db.workers[selectedDate].misMethod || 'Other/Digital';
+    } else {
+        document.getElementById('labCount').value = 0;
+        document.getElementById('misCount').value = 0;
+        document.getElementById('labPayMethod').value = 'Other/Digital';
+        document.getElementById('misPayMethod').value = 'Other/Digital';
+    }
+    calcMaterial();
+    calcWorker();
+    refreshAll();
+}
+
+function toggleOtherInput() {
+    let matSelect = document.getElementById('matName').value;
+    let otherGroup = document.getElementById('otherMatGroup');
+    if(matSelect === 'Other') {
+        otherGroup.style.display = 'block';
+        document.getElementById('customMatName').focus();
+    } else {
+        otherGroup.style.display = 'none';
+    }
+}
+
+function calcMaterial() {
+    let qtyStr = document.getElementById('matQty').value;
+    let qty = parseFloat(qtyStr) || 0;
+    let rate = parseFloat(document.getElementById('matRate').value) || 0;
+    document.getElementById('matTotalLabel').innerText = (qty * rate).toLocaleString('en-IN');
+}
+
+function calcWorker() {
+    let labCount = parseFloat(document.getElementById('labCount').value) || 0;
+    let labRate = parseFloat(document.getElementById('labRate').value) || 0;
+    let misCount = parseFloat(document.getElementById('misCount').value) || 0;
+    let misRate = parseFloat(document.getElementById('misRate').value) || 0;
+    document.getElementById('labTotalLabel').innerText = (labCount * labRate).toLocaleString('en-IN');
+    document.getElementById('misTotalLabel').innerText = (misCount * misRate).toLocaleString('en-IN');
+}
+
+function addMaterial() {
+    let date = document.getElementById('globalDate').value;
+    let selectElement = document.getElementById('matName');
+    let method = document.getElementById('matPayMethod').value;
+    let name = selectElement.value;
+    if(name === 'Other') {
+        let customName = document.getElementById('customMatName').value.trim();
+        if(!customName) { alert('Saman ka naam likhein!'); return; }
+        name = customName;
+    }
+    let qtyStr = document.getElementById('matQty').value.trim();
+    let qtyNum = parseFloat(qtyStr) || 0;
+    let rate = parseFloat(document.getElementById('matRate').value) || 0;
+    let total = qtyNum * rate;
+    if(!qtyStr || rate <= 0) { alert('Valid Quantity aur Rate dalein!'); return; }
+    if(method === 'Cash' && total > getWalletBalance()) {
+        alert('Wallet me itna cash nahi hai! Kripya pehle Cash jodein.');
+        return;
+    }
+    db.materials.push({
+        id: Date.now(),
+        date: date,
+        name: name,
+        qty: qtyStr, 
+        rate: rate,
+        total: total,
+        method: method
+    });
+    document.getElementById('matQty').value = 1;
+    document.getElementById('matRate').value = 0;
+    document.getElementById('customMatName').value = '';
+    selectElement.selectedIndex = 0;
+    document.getElementById('matPayMethod').value = 'Other/Digital';
+    toggleOtherInput();
+    calcMaterial();
+    saveToLocalStorage();
+}
+
+function deleteMaterial(id) {
+    db.materials = db.materials.filter(m => m.id !== id);
+    saveToLocalStorage();
+}
+
+function saveWorkerEntry() {
+    let date = document.getElementById('globalDate').value;
+    let labCount = parseFloat(document.getElementById('labCount').value) || 0;
+    let labRate = parseFloat(document.getElementById('labRate').value) || 0;
+    let labMethod = document.getElementById('labPayMethod').value;
+    let misCount = parseFloat(document.getElementById('misCount').value) || 0;
+    let misRate = parseFloat(document.getElementById('misRate').value) || 0;
+    let misMethod = document.getElementById('misPayMethod').value;
+
+    let oldLabCost = 0, oldMisCost = 0;
+    if (db.workers[date]) {
+        if (db.workers[date].labMethod === 'Cash') oldLabCost = db.workers[date].labCount * db.workers[date].labRate;
+        if (db.workers[date].misMethod === 'Cash') oldMisCost = db.workers[date].misCount * db.workers[date].misRate;
+    }
+
+    let newCashNeeded = 0;
+    if (labMethod === 'Cash') newCashNeeded += (labCount * labRate);
+    if (misMethod === 'Cash') newCashNeeded += (misCount * misRate);
+
+    let currentAvailable = getWalletBalance() + oldLabCost + oldMisCost;
+
+    if (newCashNeeded > currentAvailable) {
+        alert('Wallet me is dynamic worker entry ke liye paryapt Cash nahi hai!');
+        return;
+    }
+
+    db.workers[date] = { labCount, labRate, labMethod, misCount, misRate, misMethod };
+    alert('Worker Entry Save ho gayi!');
+    saveToLocalStorage();
+}
+
+function addPayment() {
+    let date = document.getElementById('globalDate').value;
+    let category = document.getElementById('payToCategory').value;
+    let method = document.getElementById('payMethod').value;
+    let paidTo = document.getElementById('payTo').value.trim();
+    let amt = parseFloat(document.getElementById('payAmt').value) || 0;
+    if(!paidTo || amt <= 0) { alert('Naam aur Amount sahi se bharein!'); return; }
+    if (method === 'Cash' && amt > getWalletBalance()) {
+        alert('Wallet me itna cash nahi hai!');
+        return;
+    }
+    db.payments.push({
+        id: Date.now(),
+        date: date,
+        category: category,
+        method: method,
+        paidTo: paidTo,
+        amt: amt
+    });
+    document.getElementById('payTo').value = '';
+    document.getElementById('payAmt').value = 0;
+    saveToLocalStorage();
+}
+
+function deletePayment(id) {
+    db.payments = db.payments.filter(p => p.id !== id);
+    saveToLocalStorage();
+}
+
+function resetDayEntry() {
+    let curDate = document.getElementById('globalDate').value;
+    if (confirm(`Kya aap sach me (${curDate}) ka saara data reset karna chahte hain?`)) {
+        db.materials = db.materials.filter(m => m.date !== curDate);
+        db.payments = db.payments.filter(p => p.date !== curDate);
+        if (db.workers[curDate]) {
+            delete db.workers[curDate];
         }
-
-        // Database Structure
-        let db = {
-            materials: [], 
-            workers: {},   
-            payments: [],
-            totalCashAdded: 0,
-            cashAdditions: []
-        };
-
-        window.onload = function() {
-            let today = new Date().toISOString().split('T')[0];
-            document.getElementById('globalDate').value = today;
-            document.getElementById('reportDate').value = today;
-
-            if(localStorage.getItem('gharKharchDb')) {
-                db = JSON.parse(localStorage.getItem('gharKharchDb'));
-            }
-            
-            validateDatabaseStructure();
-            refreshAll();
-        };
-
-        function validateDatabaseStructure() {
-            if(!db.materials) db.materials = [];
-            if(!db.workers) db.workers = {};
-            if(!db.payments) db.payments = [];
-            if(db.totalCashAdded === undefined) db.totalCashAdded = 0;
-            if(!db.cashAdditions) db.cashAdditions = [];
-        }
-
-        function saveToLocalStorage() {
-            localStorage.setItem('gharKharchDb', JSON.stringify(db));
-            refreshAll();
-        }
-
-        function addCashToWallet() {
-            let amt = parseFloat(document.getElementById('addCashAmt').value) || 0;
-            if (amt <= 0) { alert('Valid Cash amount jodein!'); return; }
-            
-            let curDate = document.getElementById('globalDate').value;
-
-            db.totalCashAdded += amt;
-            db.cashAdditions.push({ date: curDate, amount: amt });
-
-            document.getElementById('addCashAmt').value = 0;
-            alert('₹' + amt + ' cash wallet me jod diya gaya!');
-            saveToLocalStorage();
-        }
-
-        function getWalletBalance() {
-            let spentCash = 0;
-            db.materials.forEach(m => { if(m.method === 'Cash') spentCash += m.total; });
-            for(let d in db.workers) {
-                if(db.workers[d].labMethod === 'Cash') spentCash += (db.workers[d].labCount * db.workers[d].labRate) || 0;
-                if(db.workers[d].misMethod === 'Cash') spentCash += (db.workers[d].misCount * db.workers[d].misRate) || 0;
-            }
-            db.payments.forEach(p => { if(p.method === 'Cash') spentCash += p.amt; });
-            return db.totalCashAdded - spentCash;
-        }
-
-        function handleDateChange() {
-            let selectedDate = document.getElementById('globalDate').value;
-            document.getElementById('reportDate').value = selectedDate;
-            
-            if(db.workers[selectedDate]) {
-                document.getElementById('labCount').value = db.workers[selectedDate].labCount || 0;
-                document.getElementById('labRate').value = db.workers[selectedDate].labRate || 600;
-                document.getElementById('labPayMethod').value = db.workers[selectedDate].labMethod || 'Other/Digital';
-                document.getElementById('misCount').value = db.workers[selectedDate].misCount || 0;
-                document.getElementById('misRate').value = db.workers[selectedDate].misRate || 1000;
-                document.getElementById('misPayMethod').value = db.workers[selectedDate].misMethod || 'Other/Digital';
-            } else {
-                document.getElementById('labCount').value = 0;
-                document.getElementById('misCount').value = 0;
-                document.getElementById('labPayMethod').value = 'Other/Digital';
-                document.getElementById('misPayMethod').value = 'Other/Digital';
-            }
-            
-            calcMaterial();
-            calcWorker();
-            refreshAll();
-        }
-
-        function toggleOtherInput() {
-            let matSelect = document.getElementById('matName').value;
-            let otherGroup = document.getElementById('otherMatGroup');
-            if(matSelect === 'Other') {
-                otherGroup.style.display = 'block';
-                document.getElementById('customMatName').focus();
-            } else {
-                otherGroup.style.display = 'none';
-            }
-        }
-
-        function calcMaterial() {
-            let qtyStr = document.getElementById('matQty').value;
-            let qty = parseFloat(qtyStr) || 0;
-            let rate = parseFloat(document.getElementById('matRate').value) || 0;
-            document.getElementById('matTotalLabel').innerText = (qty * rate).toLocaleString('en-IN');
-        }
-
-        function calcWorker() {
-            let labCount = parseFloat(document.getElementById('labCount').value) || 0;
-            let labRate = parseFloat(document.getElementById('labRate').value) || 0;
-            let misCount = parseFloat(document.getElementById('misCount').value) || 0;
-            let misRate = parseFloat(document.getElementById('misRate').value) || 0;
-
-            document.getElementById('labTotalLabel').innerText = (labCount * labRate).toLocaleString('en-IN');
-            document.getElementById('misTotalLabel').innerText = (misCount * misRate).toLocaleString('en-IN');
-        }
-
-        function addMaterial() {
-            let date = document.getElementById('globalDate').value;
-            let selectElement = document.getElementById('matName');
-            let method = document.getElementById('matPayMethod').value;
-            let name = selectElement.value;
-            
-            if(name === 'Other') {
-                let customName = document.getElementById('customMatName').value.trim();
-                if(!customName) { alert('Saman ka naam likhein!'); return; }
-                name = customName;
-            }
-
-            let qtyStr = document.getElementById('matQty').value.trim();
-            let qtyNum = parseFloat(qtyStr) || 0;
-            let rate = parseFloat(document.getElementById('matRate').value) || 0;
-            let total = qtyNum * rate;
-
-            if(!qtyStr || rate <= 0) { alert('Valid Quantity aur Rate dalein!'); return; }
-
-            if(method === 'Cash' && total > getWalletBalance()) {
-                alert('Wallet me itna cash nahi hai! Kripya pehle Cash jodein.');
-                return;
-            }
-
-            db.materials.push({
-                id: Date.now(),
-                date: date,
-                name: name,
-                qty: qtyStr, 
-                rate: rate,
-                total: total,
-                method: method
+        if (db.cashAdditions) {
+            db.cashAdditions = db.cashAdditions.filter(c => {
+                if (c.date === curDate) {
+                    db.totalCashAdded -= c.amount; 
+                    return false; 
+                }
+                return true;
             });
+        }
+        document.getElementById('labCount').value = 0;
+        document.getElementById('misCount').value = 0;
+        document.getElementById('matQty').value = 1;
+        document.getElementById('matRate').value = 0;
+        calcMaterial();
+        calcWorker();
+        saveToLocalStorage();
+        alert(`${curDate} ka data reset ho gaya.`);
+    }
+}
 
+function totalResetAllData() {
+    if (confirm('🚨 WARNING: Kya aap sach me saara data delete karna chahte hain? Sabhi months aur wallet balance zero ho jayega!')) {
+        if (confirm('Aakhri baar pucha ja rha hai, reset conform karein?')) {
+            db = {
+                materials: [],
+                workers: {},
+                payments: [],
+                totalCashAdded: 0,
+                cashAdditions: []
+            };
+            document.getElementById('labCount').value = 0;
+            document.getElementById('misCount').value = 0;
             document.getElementById('matQty').value = 1;
             document.getElementById('matRate').value = 0;
-            document.getElementById('customMatName').value = '';
-            selectElement.selectedIndex = 0;
-            document.getElementById('matPayMethod').value = 'Other/Digital';
-            toggleOtherInput();
             calcMaterial();
+            calcWorker();
             saveToLocalStorage();
+            alert('Saara system data reset ho chuka hai.');
         }
+    }
+}
 
-        function deleteMaterial(id) {
-            db.materials = db.materials.filter(m => m.id !== id);
-            saveToLocalStorage();
-        }
+function refreshAll() {
+    let curDate = document.getElementById('globalDate').value;
+    document.getElementById('dashDateHeader').innerText = `🏠 GHAR NIRMAN KHARCH (${curDate})`;
 
-        function saveWorkerEntry() {
-            let date = document.getElementById('globalDate').value;
-            let labCount = parseFloat(document.getElementById('labCount').value) || 0;
-            let labRate = parseFloat(document.getElementById('labRate').value) || 0;
-            let labMethod = document.getElementById('labPayMethod').value;
-            let misCount = parseFloat(document.getElementById('misCount').value) || 0;
-            let misRate = parseFloat(document.getElementById('misRate').value) || 0;
-            let misMethod = document.getElementById('misPayMethod').value;
+    let totalMatCost = db.materials.reduce((sum, item) => sum + item.total, 0);
+    let totalLabCost = 0;
+    let totalMisCost = 0;
+    for(let d in db.workers) {
+        totalLabCost += (db.workers[d].labCount * db.workers[d].labRate) || 0;
+        totalMisCost += (db.workers[d].misCount * db.workers[d].misRate) || 0;
+    }
+    let totalPayments = db.payments.reduce((sum, item) => sum + item.amt, 0);
+    let grandTotalKharch = totalMatCost + totalLabCost + totalMisCost + totalPayments;
 
-            let extraCostNeeded = 0;
-            // Balance validations relative to historical state shifts
-            let oldLabCost = 0, oldMisCost = 0;
-            if (db.workers[date]) {
-                if (db.workers[date].labMethod === 'Cash') oldLabCost = db.workers[date].labCount * db.workers[date].labRate;
-                if (db.workers[date].misMethod === 'Cash') oldMisCost = db.workers[date].misCount * db.workers[date].misRate;
-            }
+    document.getElementById('cashBalance').innerText = '₹' + getWalletBalance().toLocaleString('en-IN');
+    document.getElementById('hdrMaterial').innerText = '₹' + totalMatCost.toLocaleString('en-IN');
+    document.getElementById('hdrLabour').innerText = '₹' + totalLabCost.toLocaleString('en-IN');
+    document.getElementById('hdrMistri').innerText = '₹' + totalMisCost.toLocaleString('en-IN');
+    document.getElementById('hdrPayment').innerText = '₹' + totalPayments.toLocaleString('en-IN');
+    document.getElementById('hdrGrandTotal').innerText = '₹' + grandTotalKharch.toLocaleString('en-IN');
 
-            let newCashNeeded = 0;
-            if (labMethod === 'Cash') newCashNeeded += (labCount * labRate);
-            if (misMethod === 'Cash') newCashNeeded += (misCount * misRate);
+    // Render Material Lists
+    let todayMatHtml = '';
+    let todayMatTotalAmt = 0;
+    let filteredMats = db.materials.filter(m => m.date === curDate);
+    filteredMats.forEach(m => {
+        let methodBadge = `<span class="badge-method">${m.method === 'Cash' ? '💵 Cash' : '📱 Online'}</span>`;
+        todayMatHtml += `
+            <div class="list-item">
+                <div class="details"><b>${m.name}</b> ${methodBadge} <br> ${m.qty} × ${m.rate}</div>
+                <div class="amt">₹${m.total.toLocaleString('en-IN')}</div>
+                <button class="btn-delete" onclick="deleteMaterial(${m.id})">×</button>
+            </div>
+        `;
+        todayMatTotalAmt += m.total;
+    });
+    document.getElementById('todayMaterialList').innerHTML = todayMatHtml || '<p style="font-size:0.85rem; opacity:0.6;">Is tareekh ko koi material nahi joda gaya.</p>';
+    document.getElementById('todayMatTotal').innerText = todayMatTotalAmt.toLocaleString('en-IN');
 
-            let currentAvailable = getWalletBalance() + oldLabCost + oldMisCost;
+    // Render Payments
+    let todayPayHtml = '';
+    let filteredPays = db.payments.filter(p => p.date === curDate);
+    filteredPays.forEach(p => {
+        let methodBadge = `<span class="badge-method">${p.method === 'Cash' ? '💵 Cash' : '📱 Online'}</span>`;
+        let catBadge = `<span class="badge-extra">${p.category}</span>`;
+        todayPayHtml += `
+            <div class="list-item">
+                <div class="details">Paid To: <b>${p.paidTo}</b> ${catBadge} ${methodBadge}</div>
+                <div class="amt">₹${p.amt.toLocaleString('en-IN')}</div>
+                <button class="btn-delete" onclick="deletePayment(${p.id})">×</button>
+            </div>
+        `;
+    });
+    document.getElementById('todayPaymentList').innerHTML = todayPayHtml;
 
-            if (newCashNeeded > currentAvailable) {
-                alert('Wallet me is dynamic worker entry ke liye paryapt Cash nahi hai!');
-                return;
-            }
+    updateReport();
+    updateMonthlyReport();
+}
 
-            db.workers[date] = { labCount, labRate, labMethod, misCount, misRate, misMethod };
-            alert('Worker Entry Save ho gayi!');
-            saveToLocalStorage();
-        }
+function updateReport() {
+    let rDate = document.getElementById('reportDate').value;
+    let matCost = db.materials.filter(m => m.date === rDate).reduce((sum, item) => sum + item.total, 0);
+    let labCost = 0;
+    let misCost = 0;
+    if(db.workers[rDate]) {
+        labCost = (db.workers[rDate].labCount * db.workers[rDate].labRate) || 0;
+        misCost = (db.workers[rDate].misCount * db.workers[rDate].misRate) || 0;
+    }
+    let normalPaid = db.payments.filter(p => p.date === rDate && p.category !== 'Other Expenses').reduce((sum, item) => sum + item.amt, 0);
+    let extraPaid = db.payments.filter(p => p.date === rDate && p.category === 'Other Expenses').reduce((sum, item) => sum + item.amt, 0);
+    let dayTotal = matCost + labCost + misCost + normalPaid + extraPaid;
 
-        function addPayment() {
-            let date = document.getElementById('globalDate').value;
-            let category = document.getElementById('payToCategory').value;
-            let method = document.getElementById('payMethod').value;
-            let paidTo = document.getElementById('payTo').value.trim();
-            let amt = parseFloat(document.getElementById('payAmt').value) || 0;
+    document.getElementById('repMat').innerText = '₹' + matCost.toLocaleString('en-IN');
+    document.getElementById('repLab').innerText = '₹' + labCost.toLocaleString('en-IN');
+    document.getElementById('repMis').innerText = '₹' + misCost.toLocaleString('en-IN');
+    document.getElementById('repPaid').innerText = '₹' + normalPaid.toLocaleString('en-IN');
+    document.getElementById('repExtraPaid').innerText = '₹' + extraPaid.toLocaleString('en-IN');
+    document.getElementById('repDayTotal').innerText = '₹' + dayTotal.toLocaleString('en-IN');
+}
 
-            if(!paidTo || amt <= 0) { alert('Naam aur Amount sahi se bharein!'); return; }
+function updateMonthlyReport() {
+    let monthsData = {};
+    db.materials.forEach(m => {
+        let monthStr = m.date.substring(0, 7);
+        if(!monthsData[monthStr]) monthsData[monthStr] = 0;
+        monthsData[monthStr] += m.total;
+    });
+    for(let d in db.workers) {
+        let monthStr = d.substring(0, 7);
+        if(!monthsData[monthStr]) monthsData[monthStr] = 0;
+        monthsData[monthStr] += (db.workers[d].labCount * db.workers[d].labRate) || 0;
+        monthsData[monthStr] += (db.workers[d].misCount * db.workers[d].misRate) || 0;
+    }
+    db.payments.forEach(p => {
+        let monthStr = p.date.substring(0, 7);
+        if(!monthsData[monthStr]) monthsData[monthStr] = 0;
+        monthsData[monthStr] += p.amt;
+    });
+    let html = '';
+    for(let m in monthsData) {
+        let dateObj = new Date(m + "-01");
+        let monthName = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+        html += `<div class="report-row"><span>${monthName}:</span><b>₹${monthsData[m].toLocaleString('en-IN')}</b></div>`;
+    }
+    document.getElementById('monthlyReportBox').innerHTML = html || '<p style="font-size:0.85rem; opacity:0.6;">Abhi koi data available nahi hai.</p>';
+}
 
-            if (method === 'Cash' && amt > getWalletBalance()) {
-                alert('Wallet me itna cash nahi hai!');
-                return;
-            }
+function toggleTheme() {
+    let currentTheme = document.documentElement.getAttribute('data-theme');
+    if (currentTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+}
 
-            db.payments.push({
-                id: Date.now(),
-                date: date,
-                category: category,
-                method: method,
-                paidTo: paidTo,
-                amt: amt
-            });
+if(!window.exportBackup){
+    window.exportBackup = function() {
+        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
+        let downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "ghar_kharch_backup.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+}
 
-            document.getElementById('payTo').value = '';
-            document.getElementById('payAmt').value = 0;
-            saveToLocalStorage();
-        }
-
-        function deletePayment(id) {
-            db.payments = db.payments.filter(p => p.id !== id);
-            saveToLocalStorage();
-        }
-
-        // Maintenance Methods (Day Reset and Total System Purges)
-        function resetDayEntry() {
-            let curDate = document.getElementById('globalDate').value;
-            if (confirm(`Kya aap sach me (${curDate}) ka saara data reset karna chahte hain?`)) {
-                db.materials = db.materials.filter(m => m.date !== curDate);
-                db.payments = db.payments.filter(p => p.date !== curDate);
-                if (db.workers[curDate]) {
-                    delete db.workers[curDate];
-                }
-                
-                // Deduct cash added on this specific date
-                if (db.cashAdditions) {
-                    db.cashAdditions = db.cashAdditions.filter(c => {
-                        if (c.date === curDate) {
-                            db.totalCashAdded -= c.amount; 
-                            return false; 
-                        }
-                        return true;
-                    });
-                }
-                
-                // Clear active fields manually
-                document.getElementById('labCount').value = 0;
-                document.getElementById('misCount').value = 0;
-                document.getElementById('matQty').value = 1;
-                document.getElementById('matRate').value = 0;
-                
-                calcMaterial();
-                calcWorker();
+function importBackup(event) {
+    let input = event.target;
+    let reader = new FileReader();
+    reader.onload = function(){
+        try {
+            let parsed = JSON.parse(reader.result);
+            if(parsed.materials || parsed.workers || parsed.payments || parsed.totalCashAdded !== undefined) {
+                db = parsed;
+                validateDatabaseStructure();
                 saveToLocalStorage();
-                alert(`${curDate} ka data reset ho gaya.`);
-            }
-        }
-
-        function totalResetAllData() {
-            if (confirm('🚨 WARNING: Kya aap sach me saara data delete karna chahte hain? Sabhi months aur wallet balance zero ho jayega!')) {
-                if (confirm('Aakhri baar pucha ja rha hai, reset conform karein?')) {
-                    db = {
-                        materials: [],
-                        workers: {},
-                        payments: [],
-                        totalCashAdded: 0,
-                        cashAdditions: []
-                    };
-                    
-                    document.getElementById('labCount').value = 0;
-                    document.getElementById('misCount').value = 0;
-                    document.getElementById('matQty').value = 1;
-                    document.getElementById('matRate').value = 0;
-                    
-                    calcMaterial();
-                    calcWorker();
-                    saveToLocalStorage();
-                    alert('Saara system data reset ho chuka hai.');
-                }
-            }
-        }
-
-        function refreshAll() {
-            let curDate = document.getElementById('globalDate').value;
-            document.getElementById('dashDateHeader').innerText = `🏠 GHAR NIRMAN KHARCH (${curDate})`;
-
-            let totalMatCost = db.materials.reduce((sum, item) => sum + item.total, 0);
-            
-            let totalLabCost = 0;
-            let totalMisCost = 0;
-            for(let d in db.workers) {
-                totalLabCost += (db.workers[d].labCount * db.workers[d].labRate) || 0;
-                totalMisCost += (db.workers[d].misCount * db.workers[d].misRate) || 0;
-            }
-
-            let totalPayments = db.payments.reduce((sum, item) => sum + item.amt, 0);
-            let grandTotalKharch = totalMatCost + totalLabCost + totalMisCost + totalPayments;
-
-            document.getElementById('cashBalance').innerText = '₹' + getWalletBalance().toLocaleString('en-IN');
-            document.getElementById('hdrMaterial').innerText = '₹' + totalMatCost.toLocaleString('en-IN');
-            document.getElementById('hdrLabour').innerText = '₹' + totalLabCost.toLocaleString('en-IN');
-            document.getElementById('hdrMistri').innerText = '₹' + totalMisCost.toLocaleString('en-IN');
-            document.getElementById('hdrPayment').innerText = '₹' + totalPayments.toLocaleString('en-IN');
-            document.getElementById('hdrGrandTotal').innerText = '₹' + grandTotalKharch.toLocaleString('en-IN');
-
-            // Render Material Lists
-            let todayMatHtml = '';
-            let todayMatTotalAmt = 0;
-            let filteredMats = db.materials.filter(m => m.date === curDate);
-            
-            filteredMats.forEach(m => {
-                let methodBadge = `<span class="badge-method">${m.method === 'Cash' ? '💵 Cash' : '📱 Online'}</span>`;
-                todayMatHtml += `
-                    <div class="list-item">
-                        <div class="details"><b>${m.name}</b> ${methodBadge} <br> ${m.qty} × ${m.rate}</div>
-                        <div class="amt">₹${m.total.toLocaleString('en-IN')}</div>
-                        <button class="btn-delete" onclick="deleteMaterial(${m.id})">×</button>
-                    </div>
-                `;
-                todayMatTotalAmt += m.total;
-            });
-            document.getElementById('todayMaterialList').innerHTML = todayMatHtml || '<p style="font-size:0.85rem; opacity:0.6;">Is tareekh ko koi material nahi joda gaya.</p>';
-            document.getElementById('todayMatTotal').innerText = todayMatTotalAmt.toLocaleString('en-IN');
-
-            // Render Payments
-            let todayPayHtml = '';
-            let filteredPays = db.payments.filter(p => p.date === curDate);
-            filteredPays.forEach(p => {
-                let methodBadge = `<span class="badge-method">${p.method === 'Cash' ? '💵 Cash' : '📱 Online'}</span>`;
-                let catBadge = `<span class="badge-extra">${p.category}</span>`;
-                todayPayHtml += `
-                    <div class="list-item">
-                        <div class="details">Paid To: <b>${p.paidTo}</b> ${catBadge} ${methodBadge}</div>
-                        <div class="amt">₹${p.amt.toLocaleString('en-IN')}</div>
-                        <button class="btn-delete" onclick="deletePayment(${p.id})">×</button>
-                    </div>
-                `;
-            });
-            document.getElementById('todayPaymentList').innerHTML = todayPayHtml;
-
-            updateReport();
-            updateMonthlyReport();
-        }
-
-        function updateReport() {
-            let rDate = document.getElementById('reportDate').value;
-            
-            let matCost = db.materials.filter(m => m.date === rDate).reduce((sum, item) => sum + item.total, 0);
-            
-            let labCost = 0;
-            let misCost = 0;
-            if(db.workers[rDate]) {
-                labCost = (db.workers[rDate].labCount * db.workers[rDate].labRate) || 0;
-                misCost = (db.workers[rDate].misCount * db.workers[rDate].misRate) || 0;
-            }
-
-            let normalPaid = db.payments.filter(p => p.date === rDate && p.category !== 'Other Expenses').reduce((sum, item) => sum + item.amt, 0);
-            let extraPaid = db.payments.filter(p => p.date === rDate && p.category === 'Other Expenses').reduce((sum, item) => sum + item.amt, 0);
-            
-            let dayTotal = matCost + labCost + misCost + normalPaid + extraPaid;
-
-            document.getElementById('repMat').innerText = '₹' + matCost.toLocaleString('en-IN');
-            document.getElementById('repLab').innerText = '₹' + labCost.toLocaleString('en-IN');
-            document.getElementById('repMis').innerText = '₹' + misCost.toLocaleString('en-IN');
-            document.getElementById('repPaid').innerText = '₹' + normalPaid.toLocaleString('en-IN');
-            document.getElementById('repExtraPaid').innerText = '₹' + extraPaid.toLocaleString('en-IN');
-            document.getElementById('repDayTotal').innerText = '₹' + dayTotal.toLocaleString('en-IN');
-        }
-
-        function updateMonthlyReport() {
-            let monthsData = {};
-
-            db.materials.forEach(m => {
-                let monthStr = m.date.substring(0, 7);
-                if(!monthsData[monthStr]) monthsData[monthStr] = 0;
-                monthsData[monthStr] += m.total;
-            });
-
-            for(let d in db.workers) {
-                let monthStr = d.substring(0, 7);
-                if(!monthsData[monthStr]) monthsData[monthStr] = 0;
-                monthsData[monthStr] += (db.workers[d].labCount * db.workers[d].labRate) || 0;
-                monthsData[monthStr] += (db.workers[d].misCount * db.workers[d].misRate) || 0;
-            }
-
-            db.payments.forEach(p => {
-                let monthStr = p.date.substring(0, 7);
-                if(!monthsData[monthStr]) monthsData[monthStr] = 0;
-                monthsData[monthStr] += p.amt;
-            });
-
-            let html = '';
-            for(let m in monthsData) {
-                let dateObj = new Date(m + "-01");
-                let monthName = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
-                html += `<div class="report-row"><span>${monthName}:</span><b>₹${monthsData[m].toLocaleString('en-IN')}</b></div>`;
-            }
-
-            document.getElementById('monthlyReportBox').innerHTML = html || '<p style="font-size:0.85rem; opacity:0.6;">Abhi koi data available nahi hai.</p>';
-        }
-
-        function toggleTheme() {
-            let currentTheme = document.documentElement.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'light');
+                alert('Backup successfully restore ho gaya!');
             } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
+                alert('Galat backup file structure!');
+            }
+        } catch(e) {
+            alert('File read karne me error aayi!');
+        }
+    };
+    reader.readAsText(input.files[0]);
+}
+
+function closeModal(){
+    document.getElementById("detailModal").style.display="none";
+}
+
+window.addEventListener("click",function(e){
+    let modal=document.getElementById("detailModal");
+    if(e.target===modal){
+        modal.style.display="none";
+    }
+});
+
+function showDetails(type){
+    let title="";
+    let html="";
+
+    if(type==="material"){
+        title="📦 Material Details";
+        db.materials.forEach(m=>{
+            html+=`
+            <div class="detail-card">
+                <div class="detail-title">${m.name}</div>
+                <div>Date : ${m.date}</div>
+                <div>Qty : ${m.qty}</div>
+                <div>Rate : ₹${m.rate}</div>
+                <div>Method : ${m.method}</div>
+                <div class="detail-amount">₹${m.total.toLocaleString('en-IN')}</div>
+            </div>`;
+        });
+    }
+    else if(type==="labour"){
+        title="👷 Labour Details";
+        for(let d in db.workers){
+            let w=db.workers[d];
+            if(w.labCount>0){
+                html+=`
+                <div class="detail-card">
+                    <div class="detail-title">${w.labCount} Labour</div>
+                    <div>Date : ${d}</div>
+                    <div>Rate : ₹${w.labRate}</div>
+                    <div>Method : ${w.labMethod}</div>
+                    <div class="detail-amount">₹${(w.labCount*w.labRate).toLocaleString('en-IN')}</div>
+                </div>`;
             }
         }
-
-        if(!window.exportBackup){
-            window.exportBackup = function() {
-                let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-                let downloadAnchor = document.createElement('a');
-                downloadAnchor.setAttribute("href", dataStr);
-                downloadAnchor.setAttribute("download", "ghar_kharch_backup.json");
-                document.body.appendChild(downloadAnchor);
-                downloadAnchor.click();
-                downloadAnchor.remove();
+    }
+    else if(type==="mistri"){
+        title="🧱 Mistri Details";
+        for(let d in db.workers){
+            let w=db.workers[d];
+            if(w.misCount>0){
+                html+=`
+                <div class="detail-card">
+                    <div class="detail-title">${w.misCount} Mistri</div>
+                    <div>Date : ${d}</div>
+                    <div>Rate : ₹${w.misRate}</div>
+                    <div>Method : ${w.misMethod}</div>
+                    <div class="detail-amount">₹${(w.misCount*w.misRate).toLocaleString('en-IN')}</div>
+                </div>`;
             }
         }
+    }
+    else if(type==="payment"){
+        title="💰 Payment Details";
+        db.payments.forEach(p=>{
+            html+=`
+            <div class="detail-card">
+                <div class="detail-title">${p.paidTo}</div>
+                <div>Date : ${p.date}</div>
+                <div>Category : ${p.category}</div>
+                <div>Method : ${p.method}</div>
+                <div class="detail-amount">₹${p.amt.toLocaleString('en-IN')}</div>
+            </div>`;
+        });
+    }
 
-        function importBackup(event) {
-            let input = event.target;
-            let reader = new FileReader();
-            reader.onload = function(){
-                try {
-                    let parsed = JSON.parse(reader.result);
-                    if(parsed.materials || parsed.workers || parsed.payments || parsed.totalCashAdded !== undefined) {
-                        db = parsed;
-                        validateDatabaseStructure();
-                        saveToLocalStorage();
-                        alert('Backup successfully restore ho gaya!');
-                    } else {
-                        alert('Galat backup file structure!');
-                    }
-                } catch(e) {
-                    alert('File read karne me error aayi!');
-                }
-            };
-            reader.readAsText(input.files[0]);
-        }
-    </script>
+    if(html===""){
+        html="<p>No Records Found</p>";
+    }
+
+    document.getElementById("modalTitle").innerHTML=title;
+    document.getElementById("modalBody").innerHTML=html;
+    document.getElementById("detailModal").style.display="flex";
+}
+</script>
 </body>
 </html>
