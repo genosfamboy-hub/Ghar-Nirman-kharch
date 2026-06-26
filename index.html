@@ -5,13 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ghar Nirman Kharch</title>
 
-<!-- Mobile/PWA Optimization Tags -->
 <meta name="theme-color" content="#1e3c72" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png" />
 
-<!-- Manifest for Add to Home Screen -->
 <link rel="manifest" id="pwaManifest" />
 
 <style>
@@ -26,6 +24,8 @@
     --border: #e0e0e0;
     --header-text: #ffffff;
     --warning: #f39c12;
+    --menu-bg: #f8f9fa;
+    --menu-text: #333333;
 }
 
 [data-theme="dark"] {
@@ -38,6 +38,8 @@
     --danger: #e74c3c;
     --border: #333333;
     --header-text: #e0e0e0;
+    --menu-bg: #1a1a1a;
+    --menu-text: #e0e0e0;
 }
 
 * {
@@ -60,21 +62,140 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    gap: 10px;
+}
+.menu-trigger {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    cursor: pointer;
 }
 .header-date-input {
     margin-bottom: 0; 
-    width: 140px;
+    flex-grow: 1;
 }
 .btn-toggle {
     background: var(--secondary);
     color: white;
     border: none;
-    padding: 6px 12px;
+    padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9rem;
 }
-/* Dashboard Header */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 290px;
+    height: 100%;
+    background: var(--menu-bg);
+    box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    z-index: 10000;
+    transition: 0.3s ease;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+}
+.sidebar.open {
+    left: 0;
+}
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    display: none;
+}
+.sidebar-overlay.show {
+    display: block;
+}
+.sidebar-header {
+    background: var(--primary);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-item {
+    border-bottom: 1px solid var(--border);
+}
+.menu-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: var(--menu-text);
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.menu-btn:hover {
+    background: rgba(0,0,0,0.04);
+}
+.menu-btn.active {
+    color: #e67e22;
+}
+.menu-btn::after {
+    content: '▼';
+    font-size: 0.7rem;
+    transition: transform 0.2s;
+}
+.menu-btn.active::after {
+    transform: rotate(180deg);
+}
+.menu-btn.no-sub::after {
+    content: '';
+}
+.submenu {
+    display: none;
+    background: #ffffff;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+[data-theme="dark"] .submenu {
+    background: #242424;
+}
+.submenu a {
+    display: block;
+    padding: 12px 30px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+    cursor: pointer;
+}
+.submenu a:hover {
+    background: rgba(0,0,0,0.02);
+    padding-left: 35px;
+    transition: all 0.2s;
+}
+.submenu-form-container {
+    padding: 15px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(39, 174, 96, 0.03);
+}
+
+.app-view {
+    display: none;
+}
+.app-view.active-view {
+    display: block;
+}
+
 .dashboard {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
@@ -115,7 +236,6 @@ body {
     margin-top:6px;
 }
 
-/* Cards and Sections */
 .card {
     background-color: var(--card-bg);
     border-radius: 10px;
@@ -148,7 +268,6 @@ body {
 .wallet-balance-box {
     font-size: 1.2rem; 
     font-weight: bold; 
-    margin-bottom: 15px; 
     text-align: center; 
     padding: 10px; 
     background: rgba(39, 174, 96, 0.1); 
@@ -219,7 +338,6 @@ button.btn-block {
 button.btn-block:hover {
     opacity: 0.9;
 }
-/* Lists and Tables */
 .list-item {
     display: flex;
     justify-content: space-between;
@@ -265,6 +383,14 @@ button.btn-block:hover {
     font-size: 1.1rem;
     padding: 0 5px;
 }
+.btn-edit {
+    background: none;
+    border: none;
+    color: var(--warning);
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 0 5px;
+}
 .total-row {
     margin-top: 10px;
     font-weight: bold;
@@ -287,7 +413,6 @@ button.btn-block:hover {
     cursor: pointer;
     text-align: center;
 }
-/* Report Box */
 .report-box {
     background: rgba(0, 0, 0, 0.02);
     padding: 10px;
@@ -304,7 +429,18 @@ button.btn-block:hover {
     font-size: 0.9rem;
 }
 
-/* ===== PROFESSIONAL POPUP ===== */
+.recipient-list-item {
+    padding: 10px;
+    background: var(--bg-color);
+    margin-bottom: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    border-left: 3px solid var(--primary);
+}
+
 .modal{
     position:fixed;
     top:0;
@@ -370,222 +506,306 @@ button.btn-block:hover {
 </head>
 <body>
 
-<!-- ⚙️ TOP HEADER ACTIONS -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebarNav">
+    <div class="sidebar-header">
+        <h2 style="font-size: 1.1rem; letter-spacing: 0.5px;">MENU OPTIONS</h2>
+        <button style="border:none; background:none; font-size:20px; cursor:pointer; color:white;" onclick="closeSidebar()">✕</button>
+    </div>
+
+    <div class="menu-item">
+        <button class="menu-btn no-sub" onclick="switchPage('home-view')">🏠 Home Dashboard</button>
+    </div>
+
+    <div class="menu-item">
+        <button class="menu-btn" onclick="toggleAccordion(this)">➕ Add Wallet Cash</button>
+        <div class="submenu">
+            <div class="submenu-form-container">
+                <label style="display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 5px;">💰 Add Cash Amount</label>
+                <input type="number" id="addCashAmt" value="0" style="margin-bottom: 8px; border-color: var(--accent);" />
+                <button class="btn-toggle" style="width: 100%; background: var(--accent); font-weight: bold;" onclick="addCashToWallet()">[ + Add Cash to Wallet ]</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <button class="menu-btn" onclick="toggleAccordion(this)"> 💳 Wallet Logs</button>
+        <div class="submenu">
+            <a onclick="switchPage('wallet-statement-view')">View Wallet Statement</a>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <button class="menu-btn" onclick="toggleAccordion(this)">💰 Payments Data</button>
+        <div class="submenu">
+            <a onclick="switchPage('recipient-profiles-view')">Recipient Profiles</a>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <button class="menu-btn" onclick="toggleAccordion(this)">🏗️ Logistics Manager</button>
+        <div class="submenu">
+            <a onclick="switchPage('logistics-edit-view')">View / Edit Saved Logs</a>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <button class="menu-btn" onclick="toggleAccordion(this)">📊 Reports & System</button>
+        <div class="submenu">
+            <a onclick="switchPage('reports-view')">Date & Monthly Reports</a>
+            <a onclick="switchPage('system-view')">Backup, Restore & Reset</a>
+        </div>
+    </div>
+</div>
+
 <div class="header-actions">
+    <button class="menu-trigger" onclick="openSidebar()">☰</button>
     <div class="form-group header-date-input">
         <input type="date" id="globalDate" onchange="handleDateChange()">
     </div>
-    <button class="btn-toggle" onclick="toggleTheme()">🌓 Dark Mode</button>
+    <button class="btn-toggle" onclick="toggleTheme()">🌓 Theme</button>
 </div>
 
-<!-- 🏠 DASHBOARD HEADER -->
-<div class="dashboard">
-    <h2 id="dashDateHeader">🏠 GHAR NIRMAN KHARCH</h2>
-    <div class="stats-grid">
-        <div class="stat-box" onclick="showDetails('material')">Total Material: <span id="hdrMaterial">₹0</span></div>
-        <div class="stat-box" onclick="showDetails('labour')">Total Labour: <span id="hdrLabour">₹0</span></div>
-        <div class="stat-box" onclick="showDetails('mistri')">Total Mistri: <span id="hdrMistri">₹0</span></div>
-        <div class="stat-box" onclick="showDetails('payment')">Total Payment: <span id="hdrPayment">₹0</span></div>
-        <div class="stat-box grand-total">Grand Total Kharch: <span id="hdrGrandTotal">₹0</span></div>
-    </div>
-</div>
 
-<!-- 💵 IN HAND CASH WALLET SECTION -->
-<div class="card wallet-card">
-    <h3>💵 IN HAND CASH WALLET</h3>
-    <div class="wallet-balance-box">
-        Current Balance: <span id="cashBalance" style="color: var(--accent);">₹0</span>
-    </div>
-    <div class="form-row">
-        <div class="form-group" style="grid-column: span 2;">
-            <label>Add Cash Amount (Wallet me Cash jodein)</label>
-            <input type="number" id="addCashAmt" value="0" />
-        </div>
-    </div>
-    <button class="btn-block" onclick="addCashToWallet()">[ + Add Cash to Wallet ]</button>
-</div>
-
-<!-- 📦 MATERIAL ENTRY -->
-<div class="card">
-    <h3>📦 MATERIAL ENTRY</h3>
-    <div class="form-row">
-        <div class="form-group" style="grid-column: span 2;">
-            <label>Material Name</label>
-            <select id="matName" onchange="toggleOtherInput()">
-                <option value="Cement">Cement (Cement Bag)</option>
-                <option value="Sand">Sand (Baloo / Ret)</option>
-                <option value="Rod">Rod (Sariya)</option>
-                <option value="Bricks">Bricks (Eent)</option>
-                <option value="Stone Chips">Stone Chips (Gitti)</option>
-                <option value="Other">Other Saman</option>
-            </select>
+<div id="home-view" class="app-view active-view">
+    <div class="dashboard">
+        <h2 id="dashDateHeader">🏠 GHAR NIRMAN KHARCH</h2>
+        <div class="stats-grid">
+            <div class="stat-box" onclick="showDetails('material')">Total Material: <span id="hdrMaterial">₹0</span></div>
+            <div class="stat-box" onclick="showDetails('labour')">Total Labour: <span id="hdrLabour">₹0</span></div>
+            <div class="stat-box" onclick="showDetails('mistri')">Total Mistri: <span id="hdrMistri">₹0</span></div>
+            <div class="stat-box" onclick="showDetails('payment')">Total Payment: <span id="hdrPayment">₹0</span></div>
+            <div class="stat-box grand-total" style="grid-column: span 2;">Grand Total Kharch: <span id="hdrGrandTotal">₹0</span></div>
         </div>
     </div>
 
-    <div class="form-group" id="otherMatGroup" style="display: none;">
-        <label>Saman Ka Naam Likhein</label>
-        <input type="text" id="customMatName" placeholder="e.g., Pipe, Paint, Taar" />
-    </div>
-
-    <div class="form-row">
-        <div class="form-group">
-            <label>Quantity</label>
-            <input type="text" id="matQty" value="1" oninput="calcMaterial()" />
-        </div>
-        <div class="form-group">
-            <label>Rate</label>
-            <input type="number" id="matRate" value="0" oninput="calcMaterial()" />
+    <div class="card wallet-card">
+        <h3>💵 IN HAND CASH WALLET</h3>
+        <div class="wallet-balance-box" style="margin-bottom: 0;">
+            Current Balance: <span id="cashBalance" style="color: var(--accent);">₹0</span>
         </div>
     </div>
 
-    <div class="form-group" style="margin-top: 10px;">
-        <label>Paid From (Payment Method)</label>
-        <select id="matPayMethod">
-            <option value="Cash">💵 Cash Wallet (Balances se kategi)</option>
-            <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
-        </select>
-    </div>
+    <div class="card">
+        <h3>📦 MATERIAL ENTRY <span id="editMatIndicator" style="color:var(--warning); font-size:0.8rem;"></span></h3>
+        <input type="hidden" id="editMaterialId" value="" />
+        <div class="form-row">
+            <div class="form-group" style="grid-column: span 2;">
+                <label>Material Name</label>
+                <select id="matName" onchange="toggleOtherInput()">
+                    <option value="Cement">Cement (Cement Bag)</option>
+                    <option value="Sand">Sand (Baloo / Ret)</option>
+                    <option value="Rod">Rod (Sariya)</option>
+                    <option value="Bricks">Bricks (Eent)</option>
+                    <option value="Stone Chips">Stone Chips (Gitti)</option>
+                    <option value="Other">Other Saman</option>
+                </select>
+            </div>
+        </div>
 
-    <div class="auto-calc">Auto Total: ₹<span id="matTotalLabel">0</span></div>
-    <button class="btn-block" onclick="addMaterial()">[ Add Material ]</button>
-</div>
+        <div class="form-group" id="otherMatGroup" style="display: none;">
+            <label>Saman Ka Naam Likhein</label>
+            <input type="text" id="customMatName" placeholder="e.g., Pipe, Paint, Taar" />
+        </div>
 
-<!-- 📋 TODAY MATERIAL LIST -->
-<div class="card">
-    <h3>📋 TODAY MATERIAL LIST</h3>
-    <div id="todayMaterialList">
-        <!-- Dynamic Data -->
-    </div>
-    <div class="total-row">Today's Material Total: ₹<span id="todayMatTotal">0</span></div>
-</div>
-
-<!-- 👷 WORKER SECTION -->
-<div class="card">
-    <h3>👷 WORKER SECTION</h3>
-
-    <div class="worker-sub-box">
         <div class="form-row">
             <div class="form-group">
-                <label>Labour Count</label>
-                <input type="number" id="labCount" value="0" oninput="calcWorker()" />
+                <label>Quantity</label>
+                <input type="text" id="matQty" value="1" oninput="calcMaterial()" />
             </div>
             <div class="form-group">
-                <label>Labour Rate</label>
-                <input type="number" id="labRate" value="600" oninput="calcWorker()" />
+                <label>Rate</label>
+                <input type="number" id="matRate" value="0" oninput="calcMaterial()" />
             </div>
         </div>
+
         <div class="form-group" style="margin-top: 5px;">
-            <label>Labour Paid From</label>
-            <select id="labPayMethod">
-                <option value="Cash">💵 Cash Wallet</option>
-                <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
-            </select>
+            <label>Paid To (Kisko Diya / Vendor Name)</label>
+            <input type="text" id="matPaidTo" placeholder="e.g., Ramu Cement Agency, Shanti Traders" />
         </div>
-        <div class="auto-calc">Labour Cost: ₹<span id="labTotalLabel">0</span></div>
-    </div>
 
-    <div class="worker-sub-box last">
-        <div class="form-row">
-            <div class="form-group">
-                <label>Mistri Count</label>
-                <input type="number" id="misCount" value="0" oninput="calcWorker()" />
-            </div>
-            <div class="form-group">
-                <label>Mistri Rate</label>
-                <input type="number" id="misRate" value="1000" oninput="calcWorker()" />
-            </div>
-        </div>
-        <div class="form-group" style="margin-top: 5px;">
-            <label>Mistri Paid From</label>
-            <select id="misPayMethod">
-                <option value="Cash">💵 Cash Wallet</option>
-                <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
-            </select>
-        </div>
-        <div class="auto-calc">Mistri Cost: ₹<span id="misTotalLabel">0</span></div>
-    </div>
-
-    <button class="btn-block" onclick="saveWorkerEntry()">[ Save Worker Entry ]</button>
-</div>
-
-<!-- 💰 PAYMENT SECTION -->
-<div class="card">
-    <h3>💰 PAYMENT SECTION</h3>
-    <div class="form-row" style="margin-bottom: 10px;">
-        <div class="form-group">
-            <label>Payment For</label>
-            <select id="payToCategory">
-                <option value="Mistri">Mistri Ka Payment</option>
-                <option value="Labour">Labour Ka Payment</option>
-                <option value="Material Holder">Saman / Material Holder</option>
-                <option value="Other Expenses">Other Expense / Extra Kharch</option>
-            </select>
-        </div>
-        <div class="form-group">
+        <div class="form-group" style="margin-top: 10px;">
             <label>Paid From (Payment Method)</label>
-            <select id="payMethod">
+            <select id="matPayMethod">
                 <option value="Cash">💵 Cash Wallet (Balances se kategi)</option>
-                <option value="Other/Digital">📱 Other / Online / Credit</option>
+                <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
             </select>
         </div>
-    </div>
-    <div class="form-group">
-        <label>Paid To Description (Kisko ya kis liye diya)</label>
-        <input type="text" id="payTo" placeholder="e.g. Ramesh Mistri, Cement dukan wala, Chai kharch" />
-    </div>
-    <div class="form-group">
-        <label>Amount (Kitna Diya)</label>
-        <input type="number" id="payAmt" value="0" />
-    </div>
-    <button class="btn-block" onclick="addPayment()">[ Save Payment ]</button>
 
-    <div id="todayPaymentList" style="margin-top: 12px;">
-        <!-- Dynamic Data -->
+        <div class="auto-calc">Auto Total: ₹<span id="matTotalLabel">0</span></div>
+        <button class="btn-block" id="btnSaveMaterial" onclick="addMaterial()">[ Add Material ]</button>
+    </div>
+
+    <div class="card">
+        <h3>📋 TODAY MATERIAL LIST</h3>
+        <div id="todayMaterialList"></div>
+        <div class="total-row">Today's Material Total: ₹<span id="todayMatTotal">0</span></div>
+    </div>
+
+    <div class="card">
+        <h3>👷 WORKER SECTION</h3>
+        
+        <div class="worker-sub-box">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Labour Count</label>
+                    <input type="number" id="labCount" value="0" oninput="calcWorker()" />
+                </div>
+                <div class="form-group">
+                    <label>Labour Rate</label>
+                    <input type="number" id="labRate" value="600" oninput="calcWorker()" />
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 5px;">
+                <label>Paid To (Labour / Mukhiya Ka Naam)</label>
+                <input type="text" id="labPaidTo" placeholder="e.g., Ramesh Labour Group" />
+            </div>
+            <div class="form-group" style="margin-top: 5px;">
+                <label>Labour Paid From</label>
+                <select id="labPayMethod">
+                    <option value="Cash">💵 Cash Wallet</option>
+                    <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
+                </select>
+            </div>
+            <div class="auto-calc">Labour Cost: ₹<span id="labTotalLabel">0</span></div>
+        </div>
+
+        <div class="worker-sub-box last">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Mistri Count</label>
+                    <input type="number" id="misCount" value="0" oninput="calcWorker()" />
+                </div>
+                <div class="form-group">
+                    <label>Mistri Rate</label>
+                    <input type="number" id="misRate" value="1000" oninput="calcWorker()" />
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 5px;">
+                <label>Paid To (Mistri Ka Naam)</label>
+                <input type="text" id="misPaidTo" placeholder="e.g., Suresh Mistri" />
+            </div>
+            <div class="form-group" style="margin-top: 5px;">
+                <label>Mistri Paid From</label>
+                <select id="misPayMethod">
+                    <option value="Cash">💵 Cash Wallet</option>
+                    <option value="Other/Digital" selected>📱 Other / Online / Credit</option>
+                </select>
+            </div>
+            <div class="auto-calc">Mistri Cost: ₹<span id="misTotalLabel">0</span></div>
+        </div>
+        <button class="btn-block" onclick="saveWorkerEntry()">[ Save Worker Entry ]</button>
+    </div>
+
+    <div class="card">
+        <h3>💰 PAYMENT SECTION <span id="editPayIndicator" style="color:var(--warning); font-size:0.8rem;"></span></h3>
+        <input type="hidden" id="editPaymentId" value="" />
+        <div class="form-row" style="margin-bottom: 10px;">
+            <div class="form-group">
+                <label>Payment For (Kis Chiz Ke Liye)</label>
+                <input type="text" id="payToCategory" placeholder="e.g. Mistri Payment, Saman Kharch, Chai Pani" />
+            </div>
+            <div class="form-group">
+                <label>Paid From (Payment Method)</label>
+                <select id="payMethod">
+                    <option value="Cash">💵 Cash Wallet (Balances se kategi)</option>
+                    <option value="Other/Digital">📱 Other / Online / Credit</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Paid To Description (Kisko ya kis liye diya)</label>
+            <input type="text" id="payTo" placeholder="e.g. Ramesh Mistri, Shanti Traders, Pappu Chaiwala" />
+        </div>
+        <div class="form-group">
+            <label>Amount (Kitna Diya)</label>
+            <input type="number" id="payAmt" value="0" />
+        </div>
+        <button class="btn-block" id="btnSavePayment" onclick="addPayment()">[ Save Payment ]</button>
+
+        <div id="todayPaymentList" style="margin-top: 12px;"></div>
     </div>
 </div>
 
-<!-- 📅 DATE WISE & MONTHLY REPORT -->
-<div class="card">
-    <h3>📅 DATE WISE REPORT</h3>
-    <div class="form-group">
-        <label>Select Date for Report</label>
-        <input type="date" id="reportDate" onchange="updateReport()" />
+
+<div id="wallet-statement-view" class="app-view">
+    <div class="card" style="border-top-color: var(--accent);">
+        <h3>📋 WALLET STATEMENT (DATE WISE ENTRY LOG)</h3>
+        <p style="font-size: 0.8rem; color:gray; margin-bottom: 10px;">Purani se nayi entries kram anusar (In-Out Log):</p>
+        <div id="walletStatementBox" style="max-height: 450px; overflow-y: auto; font-size: 0.95rem; padding: 5px;"></div>
     </div>
-    <div class="report-box">
-        <div class="report-row"><span>Material Cost:</span><span id="repMat">₹0</span></div>
-        <div class="report-row"><span>Labour Cost:</span><span id="repLab">₹0</span></div>
-        <div class="report-row"><span>Mistri Cost:</span><span id="repMis">₹0</span></div>
-        <div class="report-row"><span>Normal Paid:</span><span id="repPaid">₹0</span></div>
-        <div class="report-row" style="color: var(--warning); font-weight: bold;"><span>Extra Paid Cost:</span><span id="repExtraPaid">₹0</span></div>
-        <div class="report-row" style="font-weight:bold; border-top:1px solid var(--border); padding-top:5px; margin-top:5px; color:var(--accent);">
-            <span>Total Day Cost:</span><span id="repDayTotal">₹0</span>
+</div>
+
+
+<div id="recipient-profiles-view" class="app-view">
+    <div class="card" style="border-top-color: var(--primary);">
+        <h3>👤 RECIPIENT PROFILES SUMMARY</h3>
+        <p style="font-size: 0.85rem; color: gray; margin-bottom: 12px;">Kisi bhi vyakti ke naam par click karke transactions check karein:</p>
+        <div id="recipientProfilesBox" style="max-height: 450px; overflow-y: auto;"></div>
+    </div>
+</div>
+
+
+<div id="logistics-edit-view" class="app-view">
+    <div class="card" style="border-top-color: var(--warning);">
+        <h3>🏗️ LOGISTICS MANAGER (DATE WISE EDIT ENGINE)</h3>
+        <p style="font-size:0.85rem; color:gray; margin-bottom:12px;">Chunee hui date ka niche entries load hoga. Aap unhe edit karke dashboard par bhej sakte hain:</p>
+        
+        <div style="background:rgba(0,0,0,0.02); padding:10px; border-radius:8px; margin-bottom:15px;">
+            <h4 style="font-size:0.9rem; margin-bottom:5px;">👷 Worker Saved Logs (Selected Date):</h4>
+            <div id="logisticsWorkerStatus" style="font-size:0.9rem; padding:5px 0;"></div>
+        </div>
+
+        <div style="background:rgba(0,0,0,0.02); padding:10px; border-radius:8px;">
+            <h4 style="font-size:0.9rem; margin-bottom:8px;">📦 Materials List (Selected Date):</h4>
+            <div id="logisticsMaterialBox"></div>
         </div>
     </div>
+</div>
 
-    <h3 style="margin-top: 20px;">📊 MONTHLY TOTAL REPORT</h3>
-    <div class="report-box" id="monthlyReportBox">
-        <!-- Monthly calculations -->
+
+<div id="reports-view" class="app-view">
+    <div class="card">
+        <h3>📅 DATE WISE REPORT</h3>
+        <div class="form-group">
+            <label>Select Date for Report</label>
+            <input type="date" id="reportDate" onchange="updateReport()" />
+        </div>
+        <div class="report-box">
+            <div class="report-row"><span>Material Cost:</span><span id="repMat">₹0</span></div>
+            <div class="report-row"><span>Labour Cost:</span><span id="repLab">₹0</span></div>
+            <div class="report-row"><span>Mistri Cost:</span><span id="repMis">₹0</span></div>
+            <div class="report-row"><span>Normal Paid:</span><span id="repPaid">₹0</span></div>
+            <div class="report-row" style="color: var(--warning); font-weight: bold;"><span>Extra Paid Cost:</span><span id="repExtraPaid">₹0</span></div>
+            <div class="report-row" style="font-weight:bold; border-top:1px solid var(--border); padding-top:5px; margin-top:5px; color:var(--accent);">
+                <span>Total Day Cost:</span><span id="repDayTotal">₹0</span>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 20px;">📊 MONTHLY TOTAL REPORT</h3>
+        <div class="report-box" id="monthlyReportBox"></div>
     </div>
 </div>
 
-<!-- 💾 BACKUP & RESTORE & RESET -->
-<div class="card">
-    <h3>💾 BACKUP, RESTORE & MAINTENANCE</h3>
-    <p style="font-size:0.8rem; margin-bottom:10px; opacity:0.8;">Aapka data local storage me save rehta hai.</p>
-    <div class="backup-btns" style="margin-bottom: 10px;">
-        <button class="btn-backup" onclick="exportBackup()">[ Export Backup ]</button>
-        <button class="btn-backup" style="background:#7f8c8d;" onclick="document.getElementById('importFile').click()">[ Import Backup ]</button>
-    </div>
-    <input type="file" id="importFile" style="display:none" onchange="importBackup(event)" />
 
-    <!-- Danger Zone Reset Buttons -->
-    <div class="backup-btns">
-        <button class="btn-backup" style="background: var(--warning); color: black;" onclick="resetDayEntry()">⚠️ Reset Today's Entry</button>
-        <button class="btn-backup" style="background: var(--danger);" onclick="totalResetAllData()">🚨 TOTAL RESET ALL DATA</button>
+<div id="system-view" class="app-view">
+    <div class="card">
+        <h3>💾 BACKUP, RESTORE & MAINTENANCE</h3>
+        <p style="font-size:0.8rem; margin-bottom:10px; opacity:0.8;">Aapka data local storage me save rehta hai.</p>
+        <div class="backup-btns" style="margin-bottom: 10px;">
+            <button class="btn-backup" onclick="exportBackup()">[ Export Backup ]</button>
+            <button class="btn-backup" style="background:#7f8c8d;" onclick="document.getElementById('importFile').click()">[ Import Backup ]</button>
+        </div>
+        <input type="file" id="importFile" style="display:none" onchange="importBackup(event)" />
+
+        <div class="backup-btns">
+            <button class="btn-backup" style="background: var(--warning); color: black;" onclick="resetDayEntry()">⚠️ Reset Today's Entry</button>
+            <button class="btn-backup" style="background: var(--danger);" onclick="totalResetAllData()">🚨 TOTAL RESET ALL DATA</button>
+        </div>
     </div>
 </div>
 
-<!-- 📋 MODAL POPUP (Hidden Structure Out of Workspace Elements) -->
+
 <div id="detailModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -597,7 +817,6 @@ button.btn-block:hover {
 </div>
 
 <script>
-// Setup PWA Manifest dynamically to allow installation
 const manifest = {
     "short_name": "GharKharch",
     "name": "Ghar Nirman Kharch Tracker",
@@ -622,7 +841,6 @@ if ('serviceWorker' in navigator) {
     `), { scope: '.' });
 }
 
-// Database Structure
 let db = {
     materials: [], 
     workers: {},   
@@ -656,6 +874,43 @@ function saveToLocalStorage() {
     refreshAll();
 }
 
+function toggleAccordion(btn) {
+    let activeBtn = document.querySelector('.menu-btn.active');
+    let subMenu = btn.nextElementSibling;
+    if (btn.classList.contains('active')) {
+        btn.classList.remove('active');
+        subMenu.style.display = 'none';
+    } else {
+        if(activeBtn && activeBtn !== btn) {
+            activeBtn.classList.remove('active');
+            activeBtn.nextElementSibling.style.display = 'none';
+        }
+        btn.classList.add('active');
+        subMenu.style.display = 'block';
+    }
+}
+
+function switchPage(viewId) {
+    let views = document.querySelectorAll('.app-view');
+    views.forEach(v => v.classList.remove('active-view'));
+    document.getElementById(viewId).classList.add('active-view');
+
+    if(viewId === 'wallet-statement-view') renderWalletStatement();
+    if(viewId === 'recipient-profiles-view') renderRecipientProfiles();
+    if(viewId === 'logistics-edit-view') renderLogisticsManager();
+
+    closeSidebar();
+}
+
+function openSidebar() {
+    document.getElementById('sidebarNav').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('show');
+}
+function closeSidebar() {
+    document.getElementById('sidebarNav').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('show');
+}
+
 function addCashToWallet() {
     let amt = parseFloat(document.getElementById('addCashAmt').value) || 0;
     if (amt <= 0) { alert('Valid Cash amount jodein!'); return; }
@@ -665,6 +920,7 @@ function addCashToWallet() {
     document.getElementById('addCashAmt').value = 0;
     alert('₹' + amt + ' cash wallet me jod diya gaya!');
     saveToLocalStorage();
+    closeSidebar();
 }
 
 function getWalletBalance() {
@@ -678,25 +934,190 @@ function getWalletBalance() {
     return db.totalCashAdded - spentCash;
 }
 
+function renderWalletStatement() {
+    let combinedLogs = [];
+
+    db.cashAdditions.forEach((c, idx) => {
+        combinedLogs.push({ date: c.date, id: idx, type: 'In', amount: c.amount, html: `<div style="color:var(--accent); padding: 5px 0; border-bottom: 1px dashed var(--border);">➕ <b>₹${c.amount}</b> (${c.date}) - Cash Added into Wallet</div>` });
+    });
+    db.materials.forEach(m => {
+        if(m.method === 'Cash') {
+            let labelPaid = m.paidTo ? ` to <b>${m.paidTo}</b>` : '';
+            combinedLogs.push({ date: m.date, id: m.id, type: 'Out', amount: m.total, html: `<div style="color:var(--danger); padding: 5px 0; border-bottom: 1px dashed var(--border);">➖ <b>₹${m.total}</b> (${m.date}) - Material Saman: <b>${m.name}</b>${labelPaid}</div>` });
+        }
+    });
+    for(let d in db.workers) {
+        let w = db.workers[d];
+        if(w.labMethod === 'Cash' && w.labCount > 0) {
+            let amt = w.labCount * w.labRate;
+            let labelPaid = w.labPaidTo ? ` (Paid to: <b>${w.labPaidTo}</b>)` : '';
+            combinedLogs.push({ date: d, id: d + '_lab', type: 'Out', amount: amt, html: `<div style="color:var(--danger); padding: 5px 0; border-bottom: 1px dashed var(--border);">➖ <b>₹${amt}</b> (${d}) - Daily Labour Kharch${labelPaid}</div>` });
+        }
+        if(w.misMethod === 'Cash' && w.misCount > 0) {
+            let amt = w.misCount * w.misRate;
+            let labelPaid = w.misPaidTo ? ` (Paid to: <b>${w.misPaidTo}</b>)` : '';
+            combinedLogs.push({ date: d, id: d + '_mis', type: 'Out', amount: amt, html: `<div style="color:var(--danger); padding: 5px 0; border-bottom: 1px dashed var(--border);">➖ <b>₹${amt}</b> (${d}) - Daily Mistri Kharch${labelPaid}</div>` });
+        }
+    }
+    db.payments.forEach(p => {
+        if(p.method === 'Cash') {
+            combinedLogs.push({ date: p.date, id: p.id, type: 'Out', amount: p.amt, html: `<div style="color:var(--danger); padding: 5px 0; border-bottom: 1px dashed var(--border);">➖ <b>₹${p.amt}</b> (${p.date}) - Payment For: <b>${p.paidTo}</b> (${p.category})</div>` });
+        }
+    });
+
+    combinedLogs.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    let html = "";
+    combinedLogs.forEach(item => html += item.html);
+    document.getElementById('walletStatementBox').innerHTML = html || '<p style="font-size:0.85rem; opacity:0.6;">No statement activity found.</p>';
+}
+
+function renderRecipientProfiles() {
+    let names = new Set();
+    db.payments.forEach(p => { if(p.paidTo) names.add(p.paidTo.trim()); });
+    db.materials.forEach(m => { if(m.paidTo) names.add(m.paidTo.trim()); }); 
+    for(let d in db.workers) {
+        if(db.workers[d].labPaidTo) names.add(db.workers[d].labPaidTo.trim());
+        if(db.workers[d].misPaidTo) names.add(db.workers[d].misPaidTo.trim());
+    }
+
+    let html = "";
+    names.forEach(name => {
+        let totalPaid = 0;
+        db.payments.forEach(p => { if(p.paidTo && p.paidTo.trim() === name) totalPaid += p.amt; });
+        db.materials.forEach(m => { if(m.paidTo && m.paidTo.trim() === name) totalPaid += m.total; });
+        for(let d in db.workers){
+            let w = db.workers[d];
+            if(w.labPaidTo && w.labPaidTo.trim() === name) totalPaid += (w.labCount * w.labRate) || 0;
+            if(w.misPaidTo && w.misPaidTo.trim() === name) totalPaid += (w.misCount * w.misRate) || 0;
+        }
+
+        if(totalPaid > 0) {
+            html += `<div class="recipient-list-item" onclick="showRecipientStatement('${name}')"><span>👤 ${name}</span><b style="color:var(--secondary)">Total: ₹${totalPaid.toLocaleString('en-IN')}</b></div>`;
+        }
+    });
+    document.getElementById('recipientProfilesBox').innerHTML = html || "<p style='font-size:0.85rem; opacity:0.6;'>No profiles entries yet.</p>";
+}
+
+function showRecipientStatement(name) {
+    let title = `👤 Profile: ${name}`; let html = ""; let total = 0;
+    db.payments.forEach(p => {
+        if(p.paidTo && p.paidTo.trim() === name) {
+            html += `<div class="detail-card"><b>Payment Kharch</b> (${p.date})<br>Category: ${p.category} | Method: ${p.method}<div class="detail-amount">₹${p.amt}</div></div>`;
+            total += p.amt;
+        }
+    });
+    db.materials.forEach(m => {
+        if(m.paidTo && m.paidTo.trim() === name) {
+            html += `<div class="detail-card"><b>Material Item Log</b> (${m.date})<br>Material: ${m.name} | Qty: ${m.qty} × Rate: ₹${m.rate} (${m.method})<div class="detail-amount">₹${m.total}</div></div>`;
+            total += m.total;
+        }
+    });
+    for(let d in db.workers) {
+        let w = db.workers[d];
+        if(w.labPaidTo && w.labPaidTo.trim() === name) {
+            let cost = (w.labCount * w.labRate) || 0;
+            html += `<div class="detail-card"><b>Labour Worker Entry</b> (${d})<br>Count: ${w.labCount} × Rate: ₹${w.labRate} (${w.labMethod})<div class="detail-amount">₹${cost}</div></div>`;
+            total += cost;
+        }
+        if(w.misPaidTo && w.misPaidTo.trim() === name) {
+            let cost = (w.misCount * w.misRate) || 0;
+            html += `<div class="detail-card"><b>Mistri Worker Entry</b> (${d})<br>Count: ${w.misCount} × Rate: ₹${w.misRate} (${w.misMethod})<div class="detail-amount">₹${cost}</div></div>`;
+            total += cost;
+        }
+    }
+    html += `<div style="text-align:right; font-weight:bold; color:var(--accent);">Cumulative Total: ₹${total.toLocaleString('en-IN')}</div>`;
+    document.getElementById("modalTitle").innerHTML = title;
+    document.getElementById("modalBody").innerHTML = html;
+    document.getElementById("detailModal").style.display = "flex";
+}
+
+function renderLogisticsManager() {
+    let curDate = document.getElementById('globalDate').value;
+    
+    let workerHtml = "<i>Is date ko koi data nahi hai.</i>";
+    if (db.workers[curDate]) {
+        let w = db.workers[curDate];
+        workerHtml = `
+            <div><b>Labour:</b> ${w.labCount} (Rate: ₹${w.labRate}) [${w.labMethod}] ${w.labPaidTo ? `[Paid to: ${w.labPaidTo}]` : ''} = <b>₹${w.labCount * w.labRate}</b></div>
+            <div style="margin-bottom:6px;"><b>Mistri:</b> ${w.misCount} (Rate: ₹${w.misRate}) [${w.misMethod}] ${w.misPaidTo ? `[Paid to: ${w.misPaidTo}]` : ''} = <b>₹${w.misCount * w.misRate}</b></div>
+            <button class="btn-toggle" style="padding:4px 8px; background:var(--warning); color:black;" onclick="editLogisticsWorker('${curDate}')">✏️ Edit Worker Log</button>
+        `;
+    }
+    document.getElementById('logisticsWorkerStatus').innerHTML = workerHtml;
+
+    let matHtml = "";
+    let filteredMats = db.materials.filter(m => m.date === curDate);
+    filteredMats.forEach(m => {
+        matHtml += `
+            <div class="list-item">
+                <div class="details"><b>${m.name}</b> <small>(${m.qty} × ₹${m.rate})</small> ${m.paidTo ? `<br><small>Paid to: ${m.paidTo}</small>` : ''}</div>
+                <div class="amt">₹${m.total}</div>
+                <div>
+                    <button class="btn-edit" onclick="editLogisticsMaterial(${m.id})">✏️</button>
+                </div>
+            </div>
+        `;
+    });
+    document.getElementById('logisticsMaterialBox').innerHTML = matHtml || "<i>Is date ko koi material nahi joda gaya hai.</i>";
+}
+
+function editLogisticsWorker(date) {
+    switchPage('home-view');
+    document.getElementById('labCount').focus();
+}
+
+function editLogisticsMaterial(id) {
+    let item = db.materials.find(m => m.id == id);
+    if(!item) return;
+    switchPage('home-view');
+    document.getElementById('editMaterialId').value = item.id;
+    let selectElement = document.getElementById('matName');
+    if(["Cement","Sand","Rod","Bricks","Stone Chips"].includes(item.name)) {
+        selectElement.value = item.name;
+        document.getElementById('otherMatGroup').style.display = 'none';
+    } else {
+        selectElement.value = "Other";
+        document.getElementById('otherMatGroup').style.display = 'block';
+        document.getElementById('customMatName').value = item.name;
+    }
+    document.getElementById('matQty').value = item.qty;
+    document.getElementById('matRate').value = item.rate;
+    document.getElementById('matPaidTo').value = item.paidTo || '';
+    document.getElementById('matPayMethod').value = item.method;
+    document.getElementById('editMatIndicator').innerText = "(Modifying Entry)";
+    document.getElementById('btnSaveMaterial').innerText = "⚠️ [ Update Material ]";
+    calcMaterial();
+}
+
 function handleDateChange() {
     let selectedDate = document.getElementById('globalDate').value;
     document.getElementById('reportDate').value = selectedDate;
     if(db.workers[selectedDate]) {
-        document.getElementById('labCount').value = db.workers[selectedDate].labCount || 0;
-        document.getElementById('labRate').value = db.workers[selectedDate].labRate || 600;
-        document.getElementById('labPayMethod').value = db.workers[selectedDate].labMethod || 'Other/Digital';
-        document.getElementById('misCount').value = db.workers[selectedDate].misCount || 0;
-        document.getElementById('misRate').value = db.workers[selectedDate].misRate || 1000;
-        document.getElementById('misPayMethod').value = db.workers[selectedDate].misMethod || 'Other/Digital';
+        let w = db.workers[selectedDate];
+        document.getElementById('labCount').value = w.labCount || 0;
+        document.getElementById('labRate').value = w.labRate || 600;
+        document.getElementById('labPaidTo').value = w.labPaidTo || '';
+        document.getElementById('labPayMethod').value = w.labMethod || 'Other/Digital';
+        document.getElementById('misCount').value = w.misCount || 0;
+        document.getElementById('misRate').value = w.misRate || 1000;
+        document.getElementById('misPaidTo').value = w.misPaidTo || '';
+        document.getElementById('misPayMethod').value = w.misMethod || 'Other/Digital';
     } else {
         document.getElementById('labCount').value = 0;
         document.getElementById('misCount').value = 0;
+        document.getElementById('labPaidTo').value = '';
+        document.getElementById('misPaidTo').value = '';
         document.getElementById('labPayMethod').value = 'Other/Digital';
         document.getElementById('misPayMethod').value = 'Other/Digital';
     }
     calcMaterial();
     calcWorker();
     refreshAll();
+    
+    if(document.getElementById('logistics-edit-view').classList.contains('active-view')) {
+        renderLogisticsManager();
+    }
 }
 
 function toggleOtherInput() {
@@ -726,10 +1147,12 @@ function calcWorker() {
     document.getElementById('misTotalLabel').innerText = (misCount * misRate).toLocaleString('en-IN');
 }
 
+// ... logic operations remain unchanged ...
 function addMaterial() {
     let date = document.getElementById('globalDate').value;
     let selectElement = document.getElementById('matName');
     let method = document.getElementById('matPayMethod').value;
+    let paidTo = document.getElementById('matPaidTo').value.trim();
     let name = selectElement.value;
     if(name === 'Other') {
         let customName = document.getElementById('customMatName').value.trim();
@@ -745,6 +1168,15 @@ function addMaterial() {
         alert('Wallet me itna cash nahi hai! Kripya pehle Cash jodein.');
         return;
     }
+
+    let editId = document.getElementById('editMaterialId').value;
+    if(editId) {
+        db.materials = db.materials.filter(m => m.id != editId);
+        document.getElementById('editMaterialId').value = "";
+        document.getElementById('editMatIndicator').innerText = "";
+        document.getElementById('btnSaveMaterial').innerText = "[ Add Material ]";
+    }
+
     db.materials.push({
         id: Date.now(),
         date: date,
@@ -752,10 +1184,12 @@ function addMaterial() {
         qty: qtyStr, 
         rate: rate,
         total: total,
-        method: method
+        method: method,
+        paidTo: paidTo
     });
     document.getElementById('matQty').value = 1;
     document.getElementById('matRate').value = 0;
+    document.getElementById('matPaidTo').value = '';
     document.getElementById('customMatName').value = '';
     selectElement.selectedIndex = 0;
     document.getElementById('matPayMethod').value = 'Other/Digital';
@@ -773,9 +1207,11 @@ function saveWorkerEntry() {
     let date = document.getElementById('globalDate').value;
     let labCount = parseFloat(document.getElementById('labCount').value) || 0;
     let labRate = parseFloat(document.getElementById('labRate').value) || 0;
+    let labPaidTo = document.getElementById('labPaidTo').value.trim();
     let labMethod = document.getElementById('labPayMethod').value;
     let misCount = parseFloat(document.getElementById('misCount').value) || 0;
     let misRate = parseFloat(document.getElementById('misRate').value) || 0;
+    let misPaidTo = document.getElementById('misPaidTo').value.trim();
     let misMethod = document.getElementById('misPayMethod').value;
 
     let oldLabCost = 0, oldMisCost = 0;
@@ -791,26 +1227,42 @@ function saveWorkerEntry() {
     let currentAvailable = getWalletBalance() + oldLabCost + oldMisCost;
 
     if (newCashNeeded > currentAvailable) {
-        alert('Wallet me is dynamic worker entry ke liye paryapt Cash nahi hai!');
+        alert('Wallet me is worker entry ke liye paryapt Cash nahi hai!');
         return;
     }
 
-    db.workers[date] = { labCount, labRate, labMethod, misCount, misRate, misMethod };
+    db.workers[date] = { labCount, labRate, labPaidTo, labMethod, misCount, misRate, misPaidTo, misMethod };
     alert('Worker Entry Save ho gayi!');
+
+    document.getElementById('labCount').value = 0;
+    document.getElementById('misCount').value = 0;
+    document.getElementById('labPaidTo').value = '';
+    document.getElementById('misPaidTo').value = '';
+    calcWorker();
+    
     saveToLocalStorage();
 }
 
 function addPayment() {
     let date = document.getElementById('globalDate').value;
-    let category = document.getElementById('payToCategory').value;
+    let category = document.getElementById('payToCategory').value.trim();
     let method = document.getElementById('payMethod').value;
     let paidTo = document.getElementById('payTo').value.trim();
     let amt = parseFloat(document.getElementById('payAmt').value) || 0;
-    if(!paidTo || amt <= 0) { alert('Naam aur Amount sahi se bharein!'); return; }
+    if(!category || !paidTo || amt <= 0) { alert('Sahi details aur Amount bharein!'); return; }
     if (method === 'Cash' && amt > getWalletBalance()) {
         alert('Wallet me itna cash nahi hai!');
         return;
     }
+
+    let editId = document.getElementById('editPaymentId').value;
+    if(editId) {
+        db.payments = db.payments.filter(p => p.id != editId);
+        document.getElementById('editPaymentId').value = "";
+        document.getElementById('editPayIndicator').innerText = "";
+        document.getElementById('btnSavePayment').innerText = "[ Save Payment ]";
+    }
+
     db.payments.push({
         id: Date.now(),
         date: date,
@@ -819,9 +1271,23 @@ function addPayment() {
         paidTo: paidTo,
         amt: amt
     });
+    document.getElementById('payToCategory').value = '';
     document.getElementById('payTo').value = '';
     document.getElementById('payAmt').value = 0;
     saveToLocalStorage();
+}
+
+function editPaymentDirect(id) {
+    let p = db.payments.find(item => item.id == id);
+    if(!p) return;
+    document.getElementById('editPaymentId').value = p.id;
+    document.getElementById('payToCategory').value = p.category;
+    document.getElementById('payMethod').value = p.method;
+    document.getElementById('payTo').value = p.paidTo;
+    document.getElementById('payAmt').value = p.amt;
+    document.getElementById('editPayIndicator').innerText = "(Modifying Entry)";
+    document.getElementById('btnSavePayment').innerText = "⚠️ [ Update Payment ]";
+    document.getElementById('payToCategory').focus();
 }
 
 function deletePayment(id) {
@@ -848,8 +1314,11 @@ function resetDayEntry() {
         }
         document.getElementById('labCount').value = 0;
         document.getElementById('misCount').value = 0;
+        document.getElementById('labPaidTo').value = '';
+        document.getElementById('misPaidTo').value = '';
         document.getElementById('matQty').value = 1;
         document.getElementById('matRate').value = 0;
+        document.getElementById('matPaidTo').value = '';
         calcMaterial();
         calcWorker();
         saveToLocalStorage();
@@ -860,17 +1329,14 @@ function resetDayEntry() {
 function totalResetAllData() {
     if (confirm('🚨 WARNING: Kya aap sach me saara data delete karna chahte hain? Sabhi months aur wallet balance zero ho jayega!')) {
         if (confirm('Aakhri baar pucha ja rha hai, reset conform karein?')) {
-            db = {
-                materials: [],
-                workers: {},
-                payments: [],
-                totalCashAdded: 0,
-                cashAdditions: []
-            };
+            db = { materials: [], workers: {}, payments: [], totalCashAdded: 0, cashAdditions: [] };
             document.getElementById('labCount').value = 0;
             document.getElementById('misCount').value = 0;
             document.getElementById('matQty').value = 1;
             document.getElementById('matRate').value = 0;
+            document.getElementById('matPaidTo').value = '';
+            document.getElementById('labPaidTo').value = '';
+            document.getElementById('misPaidTo').value = '';
             calcMaterial();
             calcWorker();
             saveToLocalStorage();
@@ -884,8 +1350,7 @@ function refreshAll() {
     document.getElementById('dashDateHeader').innerText = `🏠 GHAR NIRMAN KHARCH (${curDate})`;
 
     let totalMatCost = db.materials.reduce((sum, item) => sum + item.total, 0);
-    let totalLabCost = 0;
-    let totalMisCost = 0;
+    let totalLabCost = 0; let totalMisCost = 0;
     for(let d in db.workers) {
         totalLabCost += (db.workers[d].labCount * db.workers[d].labRate) || 0;
         totalMisCost += (db.workers[d].misCount * db.workers[d].misRate) || 0;
@@ -900,17 +1365,18 @@ function refreshAll() {
     document.getElementById('hdrPayment').innerText = '₹' + totalPayments.toLocaleString('en-IN');
     document.getElementById('hdrGrandTotal').innerText = '₹' + grandTotalKharch.toLocaleString('en-IN');
 
-    // Render Material Lists
-    let todayMatHtml = '';
-    let todayMatTotalAmt = 0;
+    let todayMatHtml = ''; let todayMatTotalAmt = 0;
     let filteredMats = db.materials.filter(m => m.date === curDate);
     filteredMats.forEach(m => {
         let methodBadge = `<span class="badge-method">${m.method === 'Cash' ? '💵 Cash' : '📱 Online'}</span>`;
         todayMatHtml += `
             <div class="list-item">
-                <div class="details"><b>${m.name}</b> ${methodBadge} <br> ${m.qty} × ${m.rate}</div>
+                <div class="details"><b>${m.name}</b> ${methodBadge} ${m.paidTo ? `<br><small>Paid to: ${m.paidTo}</small>` : ''} <br> ${m.qty} × ${m.rate}</div>
                 <div class="amt">₹${m.total.toLocaleString('en-IN')}</div>
-                <button class="btn-delete" onclick="deleteMaterial(${m.id})">×</button>
+                <div>
+                    <button class="btn-edit" onclick="editLogisticsMaterial(${m.id})">✏️</button>
+                    <button class="btn-delete" onclick="deleteMaterial(${m.id})">×</button>
+                </div>
             </div>
         `;
         todayMatTotalAmt += m.total;
@@ -918,7 +1384,6 @@ function refreshAll() {
     document.getElementById('todayMaterialList').innerHTML = todayMatHtml || '<p style="font-size:0.85rem; opacity:0.6;">Is tareekh ko koi material nahi joda gaya.</p>';
     document.getElementById('todayMatTotal').innerText = todayMatTotalAmt.toLocaleString('en-IN');
 
-    // Render Payments
     let todayPayHtml = '';
     let filteredPays = db.payments.filter(p => p.date === curDate);
     filteredPays.forEach(p => {
@@ -928,11 +1393,14 @@ function refreshAll() {
             <div class="list-item">
                 <div class="details">Paid To: <b>${p.paidTo}</b> ${catBadge} ${methodBadge}</div>
                 <div class="amt">₹${p.amt.toLocaleString('en-IN')}</div>
-                <button class="btn-delete" onclick="deletePayment(${p.id})">×</button>
+                <div>
+                    <button class="btn-edit" onclick="editPaymentDirect(${p.id})">✏️</button>
+                    <button class="btn-delete" onclick="deletePayment(${p.id})">×</button>
+                </div>
             </div>
         `;
     });
-    document.getElementById('todayPaymentList').innerHTML = todayPayHtml;
+    document.getElementById('todayPaymentList').innerHTML = todayPayHtml || '<p style="font-size:0.85rem; opacity:0.6;">Is tareekh ko koi extra payment nahi hai.</p>';
 
     updateReport();
     updateMonthlyReport();
@@ -941,42 +1409,27 @@ function refreshAll() {
 function updateReport() {
     let rDate = document.getElementById('reportDate').value;
     let matCost = db.materials.filter(m => m.date === rDate).reduce((sum, item) => sum + item.total, 0);
-    let labCost = 0;
-    let misCost = 0;
+    let labCost = 0; let misCost = 0;
     if(db.workers[rDate]) {
         labCost = (db.workers[rDate].labCount * db.workers[rDate].labRate) || 0;
         misCost = (db.workers[rDate].misCount * db.workers[rDate].misRate) || 0;
     }
-    let normalPaid = db.payments.filter(p => p.date === rDate && p.category !== 'Other Expenses').reduce((sum, item) => sum + item.amt, 0);
-    let extraPaid = db.payments.filter(p => p.date === rDate && p.category === 'Other Expenses').reduce((sum, item) => sum + item.amt, 0);
-    let dayTotal = matCost + labCost + misCost + normalPaid + extraPaid;
+    let normalPaid = db.payments.filter(p => p.date === rDate).reduce((sum, item) => sum + item.amt, 0);
+    let dayTotal = matCost + labCost + misCost + normalPaid;
 
     document.getElementById('repMat').innerText = '₹' + matCost.toLocaleString('en-IN');
     document.getElementById('repLab').innerText = '₹' + labCost.toLocaleString('en-IN');
     document.getElementById('repMis').innerText = '₹' + misCost.toLocaleString('en-IN');
     document.getElementById('repPaid').innerText = '₹' + normalPaid.toLocaleString('en-IN');
-    document.getElementById('repExtraPaid').innerText = '₹' + extraPaid.toLocaleString('en-IN');
+    document.getElementById('repExtraPaid').innerText = '₹0';
     document.getElementById('repDayTotal').innerText = '₹' + dayTotal.toLocaleString('en-IN');
 }
 
 function updateMonthlyReport() {
     let monthsData = {};
-    db.materials.forEach(m => {
-        let monthStr = m.date.substring(0, 7);
-        if(!monthsData[monthStr]) monthsData[monthStr] = 0;
-        monthsData[monthStr] += m.total;
-    });
-    for(let d in db.workers) {
-        let monthStr = d.substring(0, 7);
-        if(!monthsData[monthStr]) monthsData[monthStr] = 0;
-        monthsData[monthStr] += (db.workers[d].labCount * db.workers[d].labRate) || 0;
-        monthsData[monthStr] += (db.workers[d].misCount * db.workers[d].misRate) || 0;
-    }
-    db.payments.forEach(p => {
-        let monthStr = p.date.substring(0, 7);
-        if(!monthsData[monthStr]) monthsData[monthStr] = 0;
-        monthsData[monthStr] += p.amt;
-    });
+    db.materials.forEach(m => { let monthStr = m.date.substring(0, 7); if(!monthsData[monthStr]) monthsData[monthStr] = 0; monthsData[monthStr] += m.total; });
+    for(let d in db.workers) { let monthStr = d.substring(0, 7); if(!monthsData[monthStr]) monthsData[monthStr] = 0; monthsData[monthStr] += (db.workers[d].labCount * db.workers[d].labRate) || 0; monthsData[monthStr] += (db.workers[d].misCount * db.workers[d].misRate) || 0; }
+    db.payments.forEach(p => { let monthStr = p.date.substring(0, 7); if(!monthsData[monthStr]) monthsData[monthStr] = 0; monthsData[monthStr] += p.amt; });
     let html = '';
     for(let m in monthsData) {
         let dateObj = new Date(m + "-01");
@@ -988,23 +1441,17 @@ function updateMonthlyReport() {
 
 function toggleTheme() {
     let currentTheme = document.documentElement.getAttribute('data-theme');
-    if (currentTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
+    document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
 }
 
-if(!window.exportBackup){
-    window.exportBackup = function() {
-        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-        let downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", "ghar_kharch_backup.json");
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
-    }
+function exportBackup() {
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
+    let downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "ghar_kharch_backup.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
 }
 
 function importBackup(event) {
@@ -1014,102 +1461,36 @@ function importBackup(event) {
         try {
             let parsed = JSON.parse(reader.result);
             if(parsed.materials || parsed.workers || parsed.payments || parsed.totalCashAdded !== undefined) {
-                db = parsed;
-                validateDatabaseStructure();
-                saveToLocalStorage();
-                alert('Backup successfully restore ho gaya!');
-            } else {
-                alert('Galat backup file structure!');
-            }
-        } catch(e) {
-            alert('File read karne me error aayi!');
-        }
+                db = parsed; validateDatabaseStructure(); saveToLocalStorage(); alert('Backup successfully restore ho gaya!'); switchPage('home-view');
+            } else { alert('Galat backup file structure!'); }
+        } catch(e) { alert('File read karne me error aayi!'); }
     };
     reader.readAsText(input.files[0]);
 }
 
-function closeModal(){
-    document.getElementById("detailModal").style.display="none";
-}
-
-window.addEventListener("click",function(e){
-    let modal=document.getElementById("detailModal");
-    if(e.target===modal){
-        modal.style.display="none";
-    }
-});
+function closeModal(){ document.getElementById("detailModal").style.display="none"; }
+window.addEventListener("click",function(e){ let modal=document.getElementById("detailModal"); if(e.target===modal){ modal.style.display="none"; } });
 
 function showDetails(type){
-    let title="";
-    let html="";
-
+    let title=""; let html="";
     if(type==="material"){
         title="📦 Material Details";
-        db.materials.forEach(m=>{
-            html+=`
-            <div class="detail-card">
-                <div class="detail-title">${m.name}</div>
-                <div>Date : ${m.date}</div>
-                <div>Qty : ${m.qty}</div>
-                <div>Rate : ₹${m.rate}</div>
-                <div>Method : ${m.method}</div>
-                <div class="detail-amount">₹${m.total.toLocaleString('en-IN')}</div>
-            </div>`;
-        });
+        db.materials.forEach(m=>{ html+=`<div class="detail-card"><div class="detail-title">${m.name}</div><div>Date : ${m.date}</div><div>Qty : ${m.qty}</div><div>Rate : ₹${m.rate}</div><div>Paid To : ${m.paidTo || 'N/A'}</div><div>Method : ${m.method}</div><div class="detail-amount">₹${m.total.toLocaleString('en-IN')}</div></div>`; });
     }
     else if(type==="labour"){
         title="👷 Labour Details";
-        for(let d in db.workers){
-            let w=db.workers[d];
-            if(w.labCount>0){
-                html+=`
-                <div class="detail-card">
-                    <div class="detail-title">${w.labCount} Labour</div>
-                    <div>Date : ${d}</div>
-                    <div>Rate : ₹${w.labRate}</div>
-                    <div>Method : ${w.labMethod}</div>
-                    <div class="detail-amount">₹${(w.labCount*w.labRate).toLocaleString('en-IN')}</div>
-                </div>`;
-            }
-        }
+        for(let d in db.workers){ let w=db.workers[d]; if(w.labCount>0){ html+=`<div class="detail-card"><div class="detail-title">${w.labCount} Labour</div><div>Date : ${d}</div><div>Rate : ₹${w.labRate}</div><div>Paid To : ${w.labPaidTo || 'N/A'}</div><div>Method : ${w.labMethod}</div><div class="detail-amount">₹${(w.labCount*w.labRate).toLocaleString('en-IN')}</div></div>`; } }
     }
     else if(type==="mistri"){
         title="🧱 Mistri Details";
-        for(let d in db.workers){
-            let w=db.workers[d];
-            if(w.misCount>0){
-                html+=`
-                <div class="detail-card">
-                    <div class="detail-title">${w.misCount} Mistri</div>
-                    <div>Date : ${d}</div>
-                    <div>Rate : ₹${w.misRate}</div>
-                    <div>Method : ${w.misMethod}</div>
-                    <div class="detail-amount">₹${(w.misCount*w.misRate).toLocaleString('en-IN')}</div>
-                </div>`;
-            }
-        }
+        for(let d in db.workers){ let w=db.workers[d]; if(w.misCount>0){ html+=`<div class="detail-card"><div class="detail-title">${w.misCount} Mistri</div><div>Date : ${d}</div><div>Rate : ₹${w.misRate}</div><div>Paid To : ${w.misPaidTo || 'N/A'}</div><div>Method : ${w.misMethod}</div><div class="detail-amount">₹${(w.misCount*w.misRate).toLocaleString('en-IN')}</div></div>`; } }
     }
     else if(type==="payment"){
         title="💰 Payment Details";
-        db.payments.forEach(p=>{
-            html+=`
-            <div class="detail-card">
-                <div class="detail-title">${p.paidTo}</div>
-                <div>Date : ${p.date}</div>
-                <div>Category : ${p.category}</div>
-                <div>Method : ${p.method}</div>
-                <div class="detail-amount">₹${p.amt.toLocaleString('en-IN')}</div>
-            </div>`;
-        });
+        db.payments.forEach(p=>{ html+=`<div class="detail-card"><div class="detail-title">${p.paidTo}</div><div>Date : ${p.date}</div><div>Category/For : ${p.category}</div><div>Method : ${p.method}</div><div class="detail-amount">₹${p.amt.toLocaleString('en-IN')}</div></div>`; });
     }
-
-    if(html===""){
-        html="<p>No Records Found</p>";
-    }
-
-    document.getElementById("modalTitle").innerHTML=title;
-    document.getElementById("modalBody").innerHTML=html;
-    document.getElementById("detailModal").style.display="flex";
+    if(html===""){ html="<p>No Records Found</p>"; }
+    document.getElementById("modalTitle").innerHTML=title; document.getElementById("modalBody").innerHTML=html; document.getElementById("detailModal").style.display="flex";
 }
 </script>
 </body>
