@@ -569,7 +569,7 @@ button.btn-block:hover {
 
 <div id="home-view" class="app-view active-view">
     <div class="dashboard">
-        <h2 id="dashDateHeader">🏠 GHAR NIRMAN KHARCH</h2>
+        <h2 id="dashDateHeader">🏠 GHAR NIRMAN TRACKER</h2>
         <div class="stats-grid">
             <div class="stat-box" onclick="showDetails('material')">Total Material: <span id="hdrMaterial">₹0</span></div>
             <div class="stat-box" onclick="showDetails('labour')">Total Labour: <span id="hdrLabour">₹0</span></div>
@@ -819,7 +819,7 @@ button.btn-block:hover {
 <script>
 const manifest = {
     "short_name": "GharKharch",
-    "name": "Ghar Nirman Kharch Tracker",
+    "name": "Ghar Nirman Tracker",
     "icons": [{
         "src": "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         "type": "image/png",
@@ -1347,7 +1347,7 @@ function totalResetAllData() {
 
 function refreshAll() {
     let curDate = document.getElementById('globalDate').value;
-    document.getElementById('dashDateHeader').innerText = `🏠 GHAR NIRMAN KHARCH (${curDate})`;
+    document.getElementById('dashDateHeader').innerText = `🏠 GHAR NIRMAN TRACKER (${curDate})`;
 
     let totalMatCost = db.materials.reduce((sum, item) => sum + item.total, 0);
     let totalLabCost = 0; let totalMisCost = 0;
